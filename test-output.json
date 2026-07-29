@@ -1,0 +1,23 @@
+[
+  {
+    "device_id": "Ground Floor_DB",
+    "location": "Ground Floor",
+    "battery": 82,
+    "status": 35,
+    "Connection Status": true
+  },
+  {
+    "device_id": "First Floor_DB",
+    "location": "First Floor",
+    "battery": 76,
+    "status": 58,
+    "Connection Status": true
+  },
+  {
+    "device_id": "Second Floor_DB",
+    "location": "Second Floor",
+    "battery": 64,
+    "status": 91,
+    "Connection Status": false
+  }
+]

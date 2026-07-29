@@ -1,0 +1,30 @@
+[
+  {
+    "email": "admin@xelco.com",
+    "name": "System Admin",
+    "role": "Admin",
+    "createdAt": "2026-07-02T17:40:27.740Z"
+  },
+  {
+    "email": "supervisor@xelco.com",
+    "name": "John Supervisor",
+    "role": "Supervisor",
+    "createdAt": "2026-07-02T17:40:27.741Z"
+  },
+  {
+    "email": "housekeeping@xelco.com",
+    "name": "Alice Staff",
+    "role": "Housekeeping Staff",
+    "createdAt": "2026-07-02T17:40:27.741Z"
+  },
+  {
+    "email": "operator@xelco.in",
+    "password": "password123",
+    "firstName": "Siddhesh",
+    "lastName": "Shinde",
+    "name": "Siddhesh Shinde",
+    "phone": "shindesiddhesh789@gmail.com",
+    "role": "Logistics Driver (Field Op)",
+    "createdAt": "2026-07-02T18:41:47.696Z"
+  }
+]
