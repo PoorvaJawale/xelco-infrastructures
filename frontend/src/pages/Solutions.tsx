@@ -157,7 +157,7 @@ export default function Solutions() {
               From survey to optimised routes in three phases
             </h2>
             <p className="text-sm text-gray-400 leading-relaxed max-w-xs lg:text-right shrink-0">
-              Retrofit existing bins or deploy new units &mdash; the platform side is identical.
+              Retrofit existing bins or deploy new units. The platform side is identical.
             </p>
           </div>
 

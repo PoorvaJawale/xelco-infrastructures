@@ -144,7 +144,7 @@ export default function Contact() {
                   <Input
                     label={
                       <>
-                        Organisation <span className="text-gray-400 font-normal">&mdash; optional</span>
+                        Organisation <span className="text-gray-400 font-normal">(optional)</span>
                       </>
                     }
                     placeholder="Company or department"
@@ -185,7 +185,7 @@ export default function Contact() {
                     error={messageError ? ' ' : undefined}
                   />
                   <p className={`text-xs mt-1.5 leading-relaxed ${messageError ? 'text-red-600' : 'text-gray-400'}`}>
-                    Tell us roughly how many bins and where &mdash; it routes your enquiry to the right team.
+                    Tell us roughly how many bins and where. It routes your enquiry to the right team.
                   </p>
                 </div>
 

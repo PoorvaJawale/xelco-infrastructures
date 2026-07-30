@@ -10,7 +10,7 @@ const principles = [
   },
   {
     title: 'Deployment specialists on site',
-    body: 'Named team through survey, install and handover — not a reseller channel.',
+    body: 'Named team through survey, install and handover, not a reseller channel.',
   },
   {
     title: 'Sustainability claims with the data behind them',
@@ -44,7 +44,7 @@ export default function About() {
                 How we work
               </div>
               <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight mb-8">
-                We build hardware for the street and software that proves what it did &mdash; then we hand you the report.
+                We build hardware for the street and software that proves what it did, then we hand you the report.
               </h2>
               <p className="text-[15px] text-dark-secondary leading-relaxed max-w-xl">
                 Founded on a simple realisation: the technology to fix waste collection already existed, the
@@ -68,25 +68,25 @@ export default function About() {
       </section>
 
       {/* --- CTA --- */}
-      <section className="w-full bg-white py-16">
+      <section className="w-full bg-[#009688] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-l-[3px] border-primary pl-6 md:pl-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-l-[3px] border-white/40 pl-6 md:pl-8">
             <div className="max-w-lg">
-              <h2 className="text-2xl md:text-[2rem] font-bold mb-2 text-dark leading-[1.18] font-display tracking-tight">
+              <h2 className="text-2xl md:text-[2rem] font-bold mb-2 text-white leading-[1.18] font-display tracking-tight">
                 Partner with us on civic infrastructure
               </h2>
-              <p className="text-dark-secondary text-base">
-                One campus or one metro area &mdash; same team either way.
+              <p className="text-white/80 text-base">
+                One campus or one metro area, same team either way.
               </p>
             </div>
 
             <div className="flex items-center gap-7 shrink-0">
-              <Button onClick={() => navigate('/contact')} className="px-8 py-5 text-sm font-semibold">
+              <Button onClick={() => navigate('/contact')} className="px-8 py-5 text-sm font-semibold bg-white text-[#009688] hover:bg-white/90 border-none">
                 Request a demo
               </Button>
               <button
                 onClick={() => navigate('/contact')}
-                className="text-sm font-semibold text-dark border-b border-gray-400 pb-1.5 flex items-center gap-1.5 hover:border-dark transition-colors"
+                className="text-sm font-semibold text-white border-b border-white/50 pb-1.5 flex items-center gap-1.5 hover:border-white transition-colors cursor-pointer"
               >
                 Talk to our experts <ArrowRight className="w-3.5 h-3.5" />
               </button>

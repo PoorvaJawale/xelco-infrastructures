@@ -173,7 +173,7 @@ export default function Dashboard() {
 
   // Fill Level Overview Doughnut (left panel)
   const overviewDoughnut = {
-    labels: ['0–60%', '60–80%', '80–100%'],
+    labels: ['0-60%', '60-80%', '80-100%'],
     datasets: [{
       data: [bins0to60, bins60to80, bins80to100],
       backgroundColor: ['#14b8a6', '#f59e0b', '#ef4444'],
@@ -183,7 +183,7 @@ export default function Dashboard() {
 
   // Fill Level Distribution Doughnut (middle panel)
   const distributionDoughnut = {
-    labels: ['0–60%', '60–80%', '80–100%'],
+    labels: ['0-60%', '60-80%', '80-100%'],
     datasets: [{
       data: [bins0to60, bins60to80, bins80to100],
       backgroundColor: ['#14b8a6', '#f59e0b', '#ef4444'],

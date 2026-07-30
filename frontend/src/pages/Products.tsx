@@ -1,36 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { 
   CheckCircle2, 
   MonitorSmartphone, 
-  Server, 
   ShieldCheck, 
-  Zap, 
   AlertTriangle, 
   TrendingDown, 
-  Map, 
-  Cpu, 
   Wifi, 
   BatteryCharging, 
-  Sun, 
   LineChart, 
   Lock, 
-  Route, 
   Database,
   Smartphone,
   ArrowRight,
   ArrowLeft,
   Settings,
   Building,
-  Home,
   Building2,
+  Home,
   Users,
   BugOff,
   Recycle,
   CloudFog,
-  Trash2
 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
@@ -290,580 +283,338 @@ export default function Products() {
     const activeData = productsData[activeTab];
 
     return (
-      <div className="pt-24 bg-white">
+      <div className="pt-[72px] bg-white">
         {/* Back navigation */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-          <button 
-            onClick={() => navigate('/products')}
-            className="flex items-center text-sm font-semibold text-primary hover:text-primary-hover transition-colors cursor-pointer group"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Back to All Products
-          </button>
-        </div>
+        <section className="w-full bg-white pt-4 pb-12 border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button 
+              onClick={() => navigate('/products')}
+              className="flex items-center text-sm font-semibold text-primary hover:text-primary-hover transition-colors cursor-pointer group mb-8"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+              Back to All Products
+            </button>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={productId}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-          {/* Section 1: Hero */}
-          <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-              <div>
-                <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-4 block">
-                  {activeData.hero.name}
-                </span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight">
-                  {activeData.hero.headline}
-                </h1>
-                <p className="text-xl text-dark-secondary mb-8 leading-relaxed">
-                  {activeData.hero.description}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={productId}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Section 1: Hero */}
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-10">
+                  <div className="max-w-xl">
+                    <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+                      {activeData.hero.name}
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-bold leading-[1.12] text-dark font-display tracking-tight mb-6">
+                      {activeData.hero.headline}
+                    </h1>
+                    <p className="text-[15px] text-dark-secondary leading-relaxed mb-8">
+                      {activeData.hero.description}
+                    </p>
+                    <Button size="lg" onClick={() => setIsQuoteModalOpen(true)} className="px-8 rounded-none">
+                      {activeData.hero.cta}
+                    </Button>
+                  </div>
+                  <div className="shrink-0 lg:w-[580px] aspect-[4/3] overflow-hidden bg-white flex items-center justify-center">
+                    <img src={activeData.hero.image} alt={activeData.hero.name} className="w-full h-full object-contain" />
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </section>
+
+        {/* Section 2: The Problem (grey) */}
+        <section className="w-full bg-slate-50 py-20 border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
+              <div className="max-w-lg shrink-0">
+                <div className="text-[11px] tracking-[0.16em] uppercase text-red-500 font-semibold mb-6">
+                  The cost of current operations
+                </div>
+                <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight">
+                  {activeData.problem.title}
+                </h2>
+                <p className="text-[15px] text-dark-secondary leading-relaxed mt-6">
+                  {activeData.problem.description}
                 </p>
-                <Button size="lg" onClick={() => setIsQuoteModalOpen(true)} className="px-8 rounded-none shadow-lg shadow-primary/20">
-                  {activeData.hero.cta}
-                </Button>
               </div>
-              <div className="rounded-3xl overflow-hidden shadow-2xl relative aspect-[4/3] lg:aspect-auto lg:h-[600px] border border-border">
-                <img src={activeData.hero.image} alt={activeData.hero.name} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-tr from-dark/40 to-transparent"></div>
-              </div>
-            </div>
-          </section>
 
-          {/* Section 2 & 3: Problem + Solution */}
-          <section className="py-24 bg-light">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
-                {/* LEFT: The Problem Card */}
-                <div className="relative rounded-3xl overflow-hidden border border-border shadow-lg min-h-[600px]">
-                  {/* Background image */}
-                  <div className="absolute inset-0">
-                    <img 
-                      src={activeTab === 'municipal' 
-                        ? "https://images.unsplash.com/photo-1605600659908-0ef719419d41?q=80&w=2536&auto=format&fit=crop"
-                        : activeTab === 'residential'
-                          ? "https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=2565&auto=format&fit=crop"
-                          : "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2569&auto=format&fit=crop"
-                      } 
-                      alt="The Problem" 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-white/85 backdrop-blur-sm"></div>
-                  </div>
-                  {/* Content */}
-                  <div className="relative z-10 p-10 flex flex-col h-full">
-                    <span className="text-red-500 font-bold tracking-wider uppercase text-sm mb-3 block">The Problem & Impact</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight uppercase">{activeData.problem.title}</h2>
-                    <p className="text-dark-secondary leading-relaxed mb-8">
-                      {activeData.problem.description}
-                    </p>
-                    <div className="space-y-5 flex-grow">
-                      {activeData.problem.points.map((point, idx) => (
-                        <div key={idx} className="flex items-start">
-                          <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 mr-3 shrink-0" />
-                          <span className="text-[15px] font-medium text-dark">{point}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* RIGHT: Our Solution Card */}
-                <div className="relative rounded-3xl overflow-hidden border border-border shadow-lg min-h-[600px]">
-                  {/* Background image */}
-                  <div className="absolute inset-0">
-                    <img 
-                      src={activeData.hero.image} 
-                      alt="XelCo Smart Bin Solution" 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-white/85 backdrop-blur-sm"></div>
-                  </div>
-                  {/* Content */}
-                  <div className="relative z-10 p-10 flex flex-col h-full">
-                    <span className="text-primary font-bold tracking-wider uppercase text-sm mb-3 block">Our Solution</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight uppercase">{activeData.solution.title}</h2>
-                    <p className="text-dark-secondary leading-relaxed mb-8">
-                      {activeData.solution.description}
-                    </p>
-                    <div className="space-y-5 flex-grow">
-                      {activeData.solution.benefits.map((benefit, idx) => (
-                        <div key={idx} className="flex items-start">
-                          <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 mr-3 shrink-0" />
-                          <span className="text-[15px] font-medium text-dark">{benefit}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </section>
-
-          {/* Section 4: How It Works */}
-          <section className="py-24 bg-dark text-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold">How It Works</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-                {activeData.howItWorks.map((step, idx) => (
-                  <div key={idx} className="relative group">
-                    <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center text-2xl font-bold mb-6 border border-white/20 group-hover:bg-primary group-hover:border-primary transition-colors">
-                      {step.step}
-                    </div>
-                    {idx < activeData.howItWorks.length - 1 && (
-                      <div className="hidden lg:block absolute top-8 left-16 right-0 h-0.5 bg-white/20"></div>
-                    )}
-                    <h4 className="text-lg font-bold mb-2">{step.title}</h4>
-                    <p className="text-sm text-gray-400">{step.desc}</p>
+              <div className="flex-1 border-t-2 border-dark">
+                {activeData.problem.points.map((point: string, idx: number) => (
+                  <div key={idx} className="py-4 border-b border-gray-200 flex items-start gap-3">
+                    <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                    <span className="text-[15px] text-dark-secondary">{point}</span>
                   </div>
                 ))}
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* Section 5: Features */}
-          <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Operational Benefits</h2>
-              <p className="text-xl text-dark-secondary">Purpose-built technology delivering measurable operational outcomes.</p>
+        {/* Section 3: Our Solution (white) */}
+        <section className="w-full bg-white py-20 border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
+              <div className="max-w-lg shrink-0">
+                <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+                  Our Solution
+                </div>
+                <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight">
+                  {activeData.solution.title}
+                </h2>
+                <p className="text-[15px] text-dark-secondary leading-relaxed mt-6">
+                  {activeData.solution.description}
+                </p>
+              </div>
+
+              <div className="flex-1 border-t-2 border-dark">
+                {activeData.solution.benefits.map((benefit: string, idx: number) => (
+                  <div key={idx} className="py-4 border-b border-gray-200 flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                    <span className="text-[15px] text-dark">{benefit}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            
-            {activeTab === 'municipal' ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
-                {activeData.features.map((feature, idx) => (
-                  <div key={idx} className="flex flex-col items-center">
-                    <div className="w-20 h-20 text-accent-blue flex items-center justify-center mb-6">
-                      {React.cloneElement(feature.icon as React.ReactElement<any>, { className: "w-16 h-16" })}
-                    </div>
-                    <h3 className="text-lg font-bold text-accent-blue mb-4 leading-tight">{feature.title}</h3>
-                    <p className="text-sm text-dark-secondary leading-relaxed">{feature.desc}</p>
-                  </div>
-                ))}
+          </div>
+        </section>
+
+        {/* Section 4: How It Works (grey) */}
+        <section className="w-full bg-slate-50 py-20 border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-10">
+              <div>
+                <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+                  Deployment path
+                </div>
+                <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight">
+                  How it works
+                </h2>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {activeData.features.map((feature, idx) => (
-                  <div key={idx} className="bg-white p-8 rounded-3xl shadow-sm border border-border hover:shadow-md transition-shadow">
-                    <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                    <p className="text-dark-secondary leading-relaxed">{feature.desc}</p>
+              <p className="text-sm text-gray-400 leading-relaxed max-w-xs shrink-0 lg:text-right lg:pt-9">
+                From installation to optimised operations in six steps.
+              </p>
+            </div>
+
+            <div className="border-t-2 border-dark grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 md:divide-x divide-gray-200">
+              {activeData.howItWorks.map((step: { step: number; title: string; desc: string }, idx: number) => (
+                <div key={idx} className="pt-8 pb-4 md:px-5 first:pl-0 last:pr-0">
+                  <div className="text-[11px] text-primary font-semibold mb-3">
+                    {String(step.step).padStart(2, '0')}
                   </div>
-                ))}
+                  <h3 className="text-base font-bold text-dark mb-2">{step.title}</h3>
+                  <p className="text-sm text-dark-secondary leading-relaxed">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 5: Features / Operational Benefits (white) */}
+        <section className="w-full bg-white py-20 border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-10">
+              <div>
+                <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+                  Capabilities
+                </div>
+                <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight">
+                  Operational benefits
+                </h2>
               </div>
-            )}
-          </section>
+              <p className="text-sm text-gray-400 leading-relaxed max-w-xs shrink-0 lg:text-right lg:pt-9">
+                Purpose-built technology delivering measurable outcomes.
+              </p>
+            </div>
 
-          {/* Section 6 & 7: Benefits & Architecture / Tech Specs + Stories */}
-          {activeTab === 'municipal' ? (
-            <section className="py-24 bg-light border-y border-border">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="border-t-2 border-dark grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:divide-x divide-gray-200">
+              {activeData.features.map((feature: { icon: React.ReactNode; title: string; desc: string }, idx: number) => (
+                <div key={idx} className={`pt-8 pb-6 ${idx < 3 ? '' : 'border-t border-gray-200'} md:px-8 first:pl-0`}>
+                  <div className="text-gray-800 mb-4">
+                    {React.cloneElement(feature.icon as React.ReactElement<any>, { className: "w-6 h-6 stroke-[1.75]" })}
+                  </div>
+                  <h3 className="text-base font-bold text-dark mb-2">{feature.title}</h3>
+                  <p className="text-sm text-dark-secondary leading-relaxed">{feature.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-                  {/* LEFT: Technical Specifications */}
-                  <div>
-                    <h2 className="text-3xl font-bold mb-8 uppercase tracking-tight">Technical Specifications</h2>
-                    
-                    {/* Spec Cards Grid */}
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Trash2 className="w-6 h-6 text-primary" />
-                          <div className="w-16 h-2 bg-primary/30 rounded-full"></div>
-                          <div className="w-10 h-2 bg-primary/50 rounded-full"></div>
-                        </div>
-                        <p className="text-sm font-bold text-dark">Capacity: <span className="font-medium text-dark-secondary">Scalable Public to Subterranean</span></p>
-                      </div>
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Sun className="w-6 h-6 text-primary" />
-                          <BatteryCharging className="w-5 h-5 text-primary/60" />
-                          <Zap className="w-5 h-5 text-primary/40" />
-                        </div>
-                        <p className="text-sm font-bold text-dark">Power: <span className="font-medium text-dark-secondary">Off-grid, Solar-Powered</span></p>
-                      </div>
+        {/* Section 6: Technical Specs (grey) */}
+        <section className="w-full bg-slate-50 py-20 border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row gap-16">
+
+              {/* LEFT: Technical Specifications */}
+              <div className="flex-1">
+                <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+                  Specifications
+                </div>
+                <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight mb-10">
+                  Technical details
+                </h2>
+
+                {activeTab === 'municipal' ? (
+                  <div className="border-t-2 border-dark">
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Capacity</span>
+                      <span className="text-sm text-dark-secondary">Scalable Public to Subterranean</span>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Map className="w-5 h-5 text-primary" />
-                          <span className="text-xs font-bold text-primary/70">5G</span>
-                          <span className="text-xs font-bold text-primary/50">LoRaWAN</span>
-                          <Wifi className="w-5 h-5 text-primary/60" />
-                        </div>
-                        <p className="text-sm font-bold text-dark">Connectivity: <span className="font-medium text-dark-secondary">Multi-Protocol Compatible</span></p>
-                      </div>
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <ShieldCheck className="w-6 h-6 text-primary" />
-                          <CheckCircle2 className="w-5 h-5 text-primary/50" />
-                        </div>
-                        <p className="text-sm font-bold text-dark">Materials: <span className="font-medium text-dark-secondary">Graffiti-resistant Steel, IK10 Rated</span></p>
-                      </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Power</span>
+                      <span className="text-sm text-dark-secondary">Off-grid, Solar-Powered</span>
                     </div>
-
-                    {/* Integration & Compatibility */}
-                    <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                      <h3 className="text-lg font-bold uppercase tracking-tight mb-2">Integration & Compatibility</h3>
-                      <p className="text-sm text-dark-secondary mb-5">Our open API architecture allows seamless data flow into your existing software ecosystems.</p>
-                      <div className="flex items-center gap-6">
-                        <div className="flex items-center justify-center w-12 h-12 bg-dark/5 rounded-xl">
-                          <span className="text-dark font-bold text-lg">&lt;/&gt;</span>
-                        </div>
-                        <div className="flex items-center justify-center w-12 h-12 bg-dark/5 rounded-xl">
-                          <Server className="w-6 h-6 text-dark" />
-                        </div>
-                        <div className="flex items-center justify-center px-3 h-12 bg-dark/5 rounded-xl">
-                          <span className="text-dark font-bold text-sm">AWS</span>
-                        </div>
-                        <div className="flex items-center justify-center w-12 h-12 bg-dark/5 rounded-xl">
-                          <Database className="w-6 h-6 text-dark" />
-                        </div>
-                      </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Connectivity</span>
+                      <span className="text-sm text-dark-secondary">5G, LoRaWAN, Wi-Fi</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Materials</span>
+                      <span className="text-sm text-dark-secondary">Graffiti-resistant Steel, IK10 Rated</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Integrations</span>
+                      <span className="text-sm text-dark-secondary">REST API, AWS IoT, Azure</span>
                     </div>
                   </div>
-
-                  {/* RIGHT: Success Stories */}
-                  <div>
-                    <h2 className="text-3xl font-bold mb-8 uppercase tracking-tight">Success Stories</h2>
-                    
-                    {/* Story 1 */}
-                    <div className="bg-dark rounded-2xl p-8 mb-6 text-white">
-                      <div className="flex items-start gap-5">
-                        <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary font-bold text-xl">
-                          D
-                        </div>
-                        <div>
-                          <p className="text-[15px] leading-relaxed mb-4">
-                            "Deploying XelCo across downtown reduced overflowing bins to zero, <strong>significantly improving public perception.</strong>" 🏛️
-                          </p>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="w-5 h-5 rounded-full bg-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">D</span>
-                            <span className="text-sm font-medium text-gray-300">Dept of Public Works, Metro City</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">City Perception Transformation</span>
-                      </div>
+                ) : activeTab === 'commercial' ? (
+                  <div className="border-t-2 border-dark">
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Capacity</span>
+                      <span className="text-sm text-dark-secondary">Multi-stream, 45L / 60L per compartment</span>
                     </div>
-
-                    {/* Story 2 */}
-                    <div className="bg-dark rounded-2xl p-8 text-white">
-                      <div className="flex items-start gap-5">
-                        <div className="w-14 h-14 rounded-full bg-secondary/20 flex items-center justify-center shrink-0 text-secondary font-bold text-xl">
-                          C
-                        </div>
-                        <div>
-                          <p className="text-[15px] leading-relaxed mb-4">
-                            "The reduction in truck rolls alone paid for the <strong>system within two budget cycles.</strong>" 💰
-                          </p>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="w-5 h-5 rounded-full bg-secondary/30 flex items-center justify-center text-[10px] font-bold text-secondary">C</span>
-                            <span className="text-sm font-medium text-gray-300">City Manager's Office</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Economic Model Validated</span>
-                      </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Power</span>
+                      <span className="text-sm text-dark-secondary">Rechargeable Li-ion, 6 months per charge</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Connectivity</span>
+                      <span className="text-sm text-dark-secondary">Wi-Fi 2.4GHz, Bluetooth LE</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Materials</span>
+                      <span className="text-sm text-dark-secondary">Fingerprint-resistant stainless steel, recycled ABS</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Integrations</span>
+                      <span className="text-sm text-dark-secondary">REST API, Webhooks, AWS IoT</span>
                     </div>
                   </div>
+                ) : (
+                  <div className="border-t-2 border-dark">
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Capacity</span>
+                      <span className="text-sm text-dark-secondary">Modular 120L / 240L / 360L stations</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Power</span>
+                      <span className="text-sm text-dark-secondary">Mains AC or high-capacity battery packs</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Connectivity</span>
+                      <span className="text-sm text-dark-secondary">Wi-Fi, LTE-M fallback, API integrations</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Materials</span>
+                      <span className="text-sm text-dark-secondary">Heavy-duty steel, antimicrobial coatings</span>
+                    </div>
+                    <div className="py-4 border-b border-gray-200 flex justify-between">
+                      <span className="text-sm font-bold text-dark">Integrations</span>
+                      <span className="text-sm text-dark-secondary">REST API, Webhooks, AWS IoT, Azure</span>
+                    </div>
+                  </div>
+                )}
+              </div>
 
+              {/* RIGHT: ROI Metrics */}
+              <div className="lg:w-[380px] shrink-0">
+                <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+                  Impact
+                </div>
+                <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight mb-10">
+                  Measurable ROI
+                </h2>
+
+                <div className="border-t-2 border-dark">
+                  {activeData.roi.map((item: { value: string; label: string }, idx: number) => (
+                    <div key={idx} className="py-5 border-b border-gray-200">
+                      <div className="text-2xl font-bold text-primary mb-1">{item.value}</div>
+                      <div className="text-sm text-dark-secondary">{item.label}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </section>
-          ) : activeTab === 'commercial' ? (
-            <section className="py-24 bg-light border-y border-border">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-                  {/* LEFT: Technical Specifications */}
-                  <div>
-                    <h2 className="text-3xl font-bold mb-8 uppercase tracking-tight">Technical Specifications</h2>
-                    
-                    {/* Spec Cards Grid */}
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Trash2 className="w-6 h-6 text-primary" />
-                          <div className="w-16 h-2 bg-primary/30 rounded-full"></div>
-                          <div className="w-10 h-2 bg-primary/50 rounded-full"></div>
-                        </div>
-                        <p className="text-sm font-bold text-dark">Capacity: <span className="font-medium text-dark-secondary">Multi-stream, 45L / 60L per compartment</span></p>
-                      </div>
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <BatteryCharging className="w-6 h-6 text-primary" />
-                          <Zap className="w-5 h-5 text-primary/60" />
-                        </div>
-                        <p className="text-sm font-bold text-dark">Power: <span className="font-medium text-dark-secondary">Rechargeable Li-ion, 6 months per charge</span></p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Wifi className="w-5 h-5 text-primary" />
-                          <span className="text-xs font-bold text-primary/70">Wi-Fi</span>
-                          <span className="text-xs font-bold text-primary/50">BLE</span>
-                        </div>
-                        <p className="text-sm font-bold text-dark">Connectivity: <span className="font-medium text-dark-secondary">Wi-Fi 2.4GHz / Bluetooth LE</span></p>
-                      </div>
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <ShieldCheck className="w-6 h-6 text-primary" />
-                          <CheckCircle2 className="w-5 h-5 text-primary/50" />
-                        </div>
-                        <p className="text-sm font-bold text-dark">Materials: <span className="font-medium text-dark-secondary">Fingerprint-resistant stainless steel & recycled ABS</span></p>
-                      </div>
-                    </div>
+            </div>
+          </div>
+        </section>
 
-                    {/* Integration & Compatibility */}
-                    <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                      <h3 className="text-lg font-bold uppercase tracking-tight mb-2">Integration & Compatibility</h3>
-                      <p className="text-sm text-dark-secondary mb-5">Our open API architecture allows seamless data flow into your existing software ecosystems.</p>
-                      <div className="flex items-center gap-6">
-                        <div className="flex items-center justify-center w-12 h-12 bg-dark/5 rounded-xl">
-                          <span className="text-dark font-bold text-lg">&lt;/&gt;</span>
-                        </div>
-                        <div className="flex items-center justify-center w-12 h-12 bg-dark/5 rounded-xl">
-                          <Server className="w-6 h-6 text-dark" />
-                        </div>
-                        <div className="flex items-center justify-center px-3 h-12 bg-dark/5 rounded-xl">
-                          <span className="text-dark font-bold text-sm">AWS</span>
-                        </div>
-                        <div className="flex items-center justify-center w-12 h-12 bg-dark/5 rounded-xl">
-                          <Database className="w-6 h-6 text-dark" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* RIGHT: Success Stories */}
-                  <div>
-                    <h2 className="text-3xl font-bold mb-8 uppercase tracking-tight">Success Stories</h2>
-                    
-                    {/* Story 1 */}
-                    <div className="bg-dark rounded-2xl p-8 mb-6 text-white">
-                      <div className="flex items-start gap-5">
-                        <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary font-bold text-xl">
-                          M
-                        </div>
-                        <div>
-                          <p className="text-[15px] leading-relaxed mb-4">
-                            "We reduced our janitorial rounds by 40% immediately. The ESG data generated by the smartBins made our annual <strong>sustainability reporting virtually effortless.</strong>" 🏢
-                          </p>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="w-5 h-5 rounded-full bg-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">M</span>
-                            <span className="text-sm font-medium text-gray-300">Marcus Chen, Facilities Director</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Operational Efficiency Transformation</span>
-                      </div>
-                    </div>
-
-                    {/* Story 2 */}
-                    <div className="bg-dark rounded-2xl p-8 text-white">
-                      <div className="flex items-start gap-5">
-                        <div className="w-14 h-14 rounded-full bg-secondary/20 flex items-center justify-center shrink-0 text-secondary font-bold text-xl">
-                          V
-                        </div>
-                        <div>
-                          <p className="text-[15px] leading-relaxed mb-4">
-                            "The automated ESG reporting from the commercial smart bins made our annual <strong>sustainability audits virtually effortless.</strong>" 💰
-                          </p>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="w-5 h-5 rounded-full bg-secondary/30 flex items-center justify-center text-[10px] font-bold text-secondary">V</span>
-                            <span className="text-sm font-medium text-gray-300">VP of Facilities, Global Tech Park</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">ESG Compliance Automated</span>
-                      </div>
-                    </div>
-                  </div>
-
+        {/* Section 7: Case Study (white) */}
+        <section className="w-full bg-white py-20 border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-16">
+              <div className="flex-1">
+                <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+                  Case study
                 </div>
-              </div>
-            </section>
-          ) : (
-            <section className="py-24 bg-light border-y border-border">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-                  {/* LEFT: Technical Specifications */}
-                  <div>
-                    <h2 className="text-3xl font-bold mb-8 uppercase tracking-tight">Technical Specifications</h2>
-                    
-                    {/* Spec Cards Grid */}
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Trash2 className="w-6 h-6 text-primary" />
-                          <div className="w-16 h-2 bg-primary/30 rounded-full"></div>
-                          <div className="w-10 h-2 bg-primary/50 rounded-full"></div>
-                        </div>
-                        <p className="text-sm font-bold text-dark">Capacity: <span className="font-medium text-dark-secondary">Modular 120L / 240L / 360L stations</span></p>
-                      </div>
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <BatteryCharging className="w-6 h-6 text-primary" />
-                          <Zap className="w-5 h-5 text-primary/60" />
-                        </div>
-                        <p className="text-sm font-bold text-dark">Power: <span className="font-medium text-dark-secondary">Mains AC or high-capacity battery packs</span></p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Wifi className="w-5 h-5 text-primary" />
-                          <span className="text-xs font-bold text-primary/70">Wi-Fi</span>
-                          <span className="text-xs font-bold text-primary/50">BLE</span>
-                        </div>
-                        <p className="text-sm font-bold text-dark">Connectivity: <span className="font-medium text-dark-secondary">Wi-Fi, LTE-M fallback, API integrations</span></p>
-                      </div>
-                      <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <ShieldCheck className="w-6 h-6 text-primary" />
-                          <CheckCircle2 className="w-5 h-5 text-primary/50" />
-                        </div>
-                        <p className="text-sm font-bold text-dark">Materials: <span className="font-medium text-dark-secondary">Heavy-duty steel & antimicrobial coatings</span></p>
-                      </div>
-                    </div>
-
-                    {/* Integration & Compatibility */}
-                    <div className="bg-white rounded-2xl p-6 border border-border shadow-sm">
-                      <div className="flex items-center gap-3 mb-2">
-                        <Settings className="w-5 h-5 text-dark" />
-                        <h3 className="text-lg font-bold">Integration & Compatibility</h3>
-                      </div>
-                      <p className="text-sm text-dark-secondary mb-5">Our open API architecture allows seamless data flow into your existing software ecosystems.</p>
-                      <div className="flex flex-wrap gap-3">
-                        <span className="px-4 py-2 bg-light border border-border rounded-lg text-sm font-medium text-dark">REST API</span>
-                        <span className="px-4 py-2 bg-light border border-border rounded-lg text-sm font-medium text-dark">Webhooks</span>
-                        <span className="px-4 py-2 bg-light border border-border rounded-lg text-sm font-medium text-dark">AWS IoT</span>
-                        <span className="px-4 py-2 bg-light border border-border rounded-lg text-sm font-medium text-dark">Azure Service Bus</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* RIGHT: Success Stories */}
-                  <div>
-                    <h2 className="text-3xl font-bold mb-8 uppercase tracking-tight">Success Stories</h2>
-                    
-                    {/* Story 1 */}
-                    <div className="bg-dark rounded-2xl p-8 mb-6 text-white">
-                      <div className="flex items-start gap-5">
-                        <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary font-bold text-xl">
-                          S
-                        </div>
-                        <div>
-                          <p className="text-[15px] leading-relaxed mb-4">
-                            "It completely changed how my family recycles. My kids actually want to use the smartBin to see their stats go up." 🏡
-                          </p>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="w-5 h-5 rounded-full bg-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">S</span>
-                            <span className="text-sm font-medium text-gray-300">Sarah Jenkins, Homeowner</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Gamified Recycling Success</span>
-                      </div>
-                    </div>
-
-                    {/* Story 2 */}
-                    <div className="bg-dark rounded-2xl p-8 text-white">
-                      <div className="flex items-start gap-5">
-                        <div className="w-14 h-14 rounded-full bg-secondary/20 flex items-center justify-center shrink-0 text-secondary font-bold text-xl">
-                          D
-                        </div>
-                        <div>
-                          <p className="text-[15px] leading-relaxed mb-4">
-                            "The odor control is remarkable. Perfect for modern open-concept living spaces and luxury residential corridors." ✨
-                          </p>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="w-5 h-5 rounded-full bg-secondary/30 flex items-center justify-center text-[10px] font-bold text-secondary">D</span>
-                            <span className="text-sm font-medium text-gray-300">David T., Architect</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Premium Design Validation</span>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </section>
-          )}
-
-
-          {/* Section 9: Case Study */}
-          <section className="py-24 bg-dark text-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                  <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-4 block">Case Study</span>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-8">{activeData.caseStudy.client}</h2>
-                  <p className="text-xl md:text-2xl leading-relaxed font-light italic mb-8">
+                <h2 className="text-3xl md:text-[2.5rem] font-bold leading-[1.18] text-dark font-display tracking-tight mb-8">
+                  {activeData.caseStudy.client}
+                </h2>
+                <blockquote className="border-l-4 border-primary pl-6 mb-8">
+                  <p className="text-lg text-dark-secondary leading-relaxed italic">
                     "{activeData.caseStudy.quote}"
                   </p>
-                  <div className="flex items-center mb-12">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
-                      <span className="text-primary font-bold text-xl">{activeData.caseStudy.author.charAt(0)}</span>
-                    </div>
-                    <span className="text-gray-300 font-medium">{activeData.caseStudy.author}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-4">
-                    {activeData.caseStudy.metrics.map((m, idx) => (
-                      <span key={idx} className="px-4 py-2 bg-white/10 rounded-full text-sm font-semibold border border-white/20">
-                        {m}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-3xl overflow-hidden aspect-video relative border border-white/10">
-                  {/* Case study placeholder image */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-dark flex items-center justify-center">
-                    <img src={activeData.hero.image} alt="Case Study" className="w-full h-full object-cover mix-blend-overlay opacity-50" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Button variant="outline" className="border-white text-dark bg-white hover:bg-white/90">
-                        Read Full Case Study
-                      </Button>
-                    </div>
-                  </div>
+                </blockquote>
+                <p className="text-sm font-semibold text-dark">{activeData.caseStudy.author}</p>
+
+                <div className="flex flex-wrap gap-3 mt-8">
+                  {activeData.caseStudy.metrics.map((m: string, idx: number) => (
+                    <span key={idx} className="px-4 py-2 bg-slate-50 border border-gray-200 text-sm font-medium text-dark">
+                      {m}
+                    </span>
+                  ))}
                 </div>
               </div>
+
+              <div className="lg:w-[500px] shrink-0 aspect-[4/3] overflow-hidden bg-white flex items-center justify-center">
+                <img src={activeData.hero.image} alt={activeData.caseStudy.client} className="w-full h-full object-contain" />
+              </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* Section 10: Contact CTA */}
-          <section className="py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready for Intelligent Infrastructure?</h2>
-            <p className="text-xl text-dark-secondary mb-10">
-              Transform your waste management operations today. Our {activeData.hero.name.toLowerCase()} experts are ready to build your custom deployment plan.
-            </p>
-            <Button size="lg" onClick={() => setIsQuoteModalOpen(true)} className="px-10 py-6 text-lg rounded-none shadow-xl shadow-primary/20">
-              {activeData.hero.cta} <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </section>
-
-          </motion.div>
-        </AnimatePresence>
+        {/* Section 8: CTA (teal) */}
+        <section className="w-full bg-[#009688] py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="border-l-4 border-white/40 pl-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold text-white font-display tracking-tight mb-2">
+                  Ready for intelligent infrastructure?
+                </h2>
+                <p className="text-white/80 text-base">
+                  Our {activeData.hero.name.toLowerCase()} experts are ready to build your custom deployment plan.
+                </p>
+              </div>
+              <div className="flex items-center gap-6 shrink-0">
+                <Button onClick={() => setIsQuoteModalOpen(true)} className="px-6 rounded-none bg-white text-[#009688] hover:bg-white/90 border-none">
+                  {activeData.hero.cta}
+                </Button>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="text-sm font-semibold text-white border-b border-white/50 pb-0.5 hover:border-white transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  Talk to our experts <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <QuoteModal isOpen={isQuoteModalOpen} onClose={() => setIsQuoteModalOpen(false)} segment={activeTab} />
       </div>
@@ -872,8 +623,8 @@ export default function Products() {
 
   // If no productId in the URL, render the Product Index Page
   return (
-    <div className="pt-24 bg-white min-h-[70vh]">
-      <section className="py-16 bg-white">
+    <div className="pt-[72px] bg-white min-h-[70vh]">
+      <section className="pt-4 pb-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
             Services
@@ -888,12 +639,13 @@ export default function Products() {
             </p>
           </div>
 
-          <div className="border-t-2 border-dark grid grid-cols-1 md:grid-cols-3 md:divide-x divide-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-gray-200">
             {[
               {
                 id: 'residential',
                 name: 'Residential',
                 tag: 'B2C',
+                icon: <Home className="w-8 h-8 text-gray-500 stroke-[1.5]" />,
                 items: [
                   'Touchless smart bins',
                   'Active odour neutralisation',
@@ -906,6 +658,7 @@ export default function Products() {
                 id: 'commercial',
                 name: 'Commercial',
                 tag: 'B2B',
+                icon: <Building className="w-8 h-8 text-gray-500 stroke-[1.5]" />,
                 items: [
                   'Multi-stream segregation bins',
                   'Facility-wide admin portal',
@@ -918,6 +671,7 @@ export default function Products() {
                 id: 'municipal',
                 name: 'Municipal',
                 tag: 'B2G',
+                icon: <Building2 className="w-8 h-8 text-gray-500 stroke-[1.5]" />,
                 items: [
                   'Solar compaction street bins',
                   'City command center',
@@ -928,13 +682,16 @@ export default function Products() {
               },
             ].map((col, i) => (
               <div key={col.id} className={`pt-8 pb-2 ${i === 0 ? 'md:pr-8' : 'md:px-8'}`}>
-                <div className="flex items-baseline gap-3 pb-4 border-b border-gray-200">
-                  <h2 className="text-2xl font-bold text-dark font-display tracking-tight">{col.name}</h2>
-                  <span className="text-xs text-gray-400 font-semibold">{col.tag}</span>
+                <div className="flex items-center gap-4 pb-4">
+                  {col.icon}
+                  <div className="flex items-baseline gap-3">
+                    <h2 className="text-3xl md:text-4xl font-bold text-dark font-display tracking-tight">{col.name}</h2>
+                    <span className="text-xs text-gray-400 font-semibold">{col.tag}</span>
+                  </div>
                 </div>
 
                 {col.items.map((item) => (
-                  <div key={item} className="py-3.5 border-b border-gray-200 text-[15px] text-dark-secondary">
+                  <div key={item} className="py-3.5 text-[15px] text-dark-secondary">
                     {item}
                   </div>
                 ))}

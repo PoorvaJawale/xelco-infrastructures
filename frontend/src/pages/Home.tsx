@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full overflow-hidden">
       {/* --- HERO SECTION --- */}
-      <section className="w-full relative pt-12 md:pt-20 pb-20 bg-white border-b border-gray-100">
+      <section className="w-full relative pt-4 md:pt-6 pb-20 bg-white border-b border-gray-100">
         {/* Desktop right-side background graphic */}
         <div className="absolute right-0 top-0 bottom-0 w-[50%] hidden lg:block pointer-events-none z-0">
           <img 
@@ -125,8 +125,19 @@ export default function Home() {
       </section>
 
       {/* --- PLATFORM PIPELINE SECTION --- */}
-      <section className="w-full bg-[#F8F9FA] py-20 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="w-full bg-[#F8F9FA] py-20 border-b border-gray-100 relative overflow-hidden">
+        {/* Background company logo watermark - showing only the top portion */}
+        <div 
+          className="absolute right-[-80px] bottom-[-220px] w-[500px] h-[500px] pointer-events-none z-0"
+          style={{
+            backgroundImage: 'url(/company-logo.png)',
+            backgroundSize: 'contain',
+            backgroundPosition: 'top left',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.05,
+          }}
+        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionMarker label="The Platform" />
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
             <div className="max-w-xl">
@@ -169,7 +180,7 @@ export default function Home() {
             <div className="bg-white border border-gray-200 border-t-2 border-t-primary flex flex-col">
               <div className="px-6 pt-9 pb-6">
                 <div className="flex items-baseline justify-between gap-4 mb-4">
-                  <span className="text-[11px] text-primary font-semibold">03 &mdash; 04</span>
+                  <span className="text-[11px] text-primary font-semibold">03 &amp; 04</span>
                   <span className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-medium">
                     Where the work happens
                   </span>
@@ -211,7 +222,7 @@ export default function Home() {
                 Manage every bin from one command center
               </h2>
               <p className="text-base text-dark-secondary mb-10 leading-relaxed max-w-md">
-                Thousands of bins, one screen &mdash; with the alerts and routes generated for you.
+                Thousands of bins, one screen, with the alerts and routes generated for you.
               </p>
 
               <div className="flex flex-col gap-7 mb-10">
@@ -367,8 +378,19 @@ export default function Home() {
       </section>
 
       {/* --- PRODUCTS: three bins, three markets --- */}
-      <section className="w-full bg-white py-20 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="w-full bg-[#f8f9fa] py-20 border-b border-gray-100 relative overflow-hidden">
+        {/* Background company logo watermark - showing only the bottom portion at the top left */}
+        <div 
+          className="absolute left-[-80px] top-[-220px] w-[500px] h-[500px] pointer-events-none z-0"
+          style={{
+            backgroundImage: 'url(/company-logo.png)',
+            backgroundSize: 'contain',
+            backgroundPosition: 'bottom right',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.05,
+          }}
+        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
             <div>
               <SectionMarker label="Products" />
@@ -408,23 +430,23 @@ export default function Home() {
                 short: 'Municipal',
               },
             ].map((p) => (
-              <div key={p.id} className="border border-gray-200 flex flex-col">
-                <div className="bg-[#F8F9FA] flex items-center justify-center p-8 h-[280px]">
+              <div key={p.id} className="bg-white border border-gray-200 flex flex-col">
+                <div className="bg-white w-full p-0 flex items-center justify-center">
                   <img
                     src={p.img}
                     alt={`XelCo ${p.name}`}
-                    className="max-h-full w-auto object-contain"
+                    className="w-full h-auto object-contain"
                   />
                 </div>
-                <div className="p-6 border-t border-gray-200 flex flex-col flex-1">
-                  <div className="text-[10px] tracking-[0.14em] uppercase text-gray-500 font-semibold mb-3">
+                <div className="p-6 bg-[#009688] flex flex-col flex-1 text-white">
+                  <div className="text-[10px] tracking-[0.14em] uppercase text-white/70 font-semibold mb-3">
                     {p.tag}
                   </div>
-                  <h3 className="text-xl font-bold text-dark mb-3 font-display tracking-tight">{p.name}</h3>
-                  <p className="text-sm text-dark-secondary leading-relaxed mb-6">{p.desc}</p>
+                  <h3 className="text-xl font-bold text-white mb-3 font-display tracking-tight">{p.name}</h3>
+                  <p className="text-sm text-white/85 leading-relaxed mb-6">{p.desc}</p>
                   <button
                     onClick={() => navigate(`/products/${p.id}`)}
-                    className="text-sm text-primary-hover font-semibold flex items-center gap-1.5 mt-auto self-start hover:text-dark transition-colors"
+                    className="text-sm font-semibold flex items-center gap-1.5 mt-auto self-start border-b border-white/30 pb-0.5 hover:border-white transition-colors cursor-pointer"
                   >
                     {p.short} <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -435,53 +457,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- DEPLOYED IN (compact sector strip) --- */}
-      <section className="w-full bg-primary/[0.18] py-10 border-y border-primary/[0.28]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-10">
-            <span className="text-[11px] tracking-[0.16em] uppercase text-gray-600 font-medium shrink-0">
-              Deployed in
-            </span>
-            <div className="flex flex-wrap items-center gap-y-2 flex-1">
-              {['Municipalities', 'Airports', 'Railways', 'Universities', 'Hospitals', 'Smart cities'].map((sector, i) => (
-                <span
-                  key={sector}
-                  className={`text-base text-dark px-5 leading-tight ${i > 0 ? 'border-l border-primary/25' : 'pl-0'}`}
-                >
-                  {sector}
-                </span>
-              ))}
-            </div>
-            <button
-              onClick={() => navigate('/solutions#sector-outcomes')}
-              className="text-sm text-primary-hover font-semibold shrink-0 flex items-center gap-1.5 hover:text-dark self-start md:self-auto"
-            >
-              Sector outcomes <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* --- PRE-FOOTER CTA --- */}
-      <section className="w-full bg-white py-16">
+      <section className="w-full bg-[#009688] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-l-[3px] border-primary pl-6 md:pl-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-l-[3px] border-white/40 pl-6 md:pl-8">
             <div className="max-w-lg">
-              <h2 className="text-3xl md:text-[2.5rem] font-bold mb-3 text-dark leading-[1.15] font-display tracking-tight">
+              <h2 className="text-3xl md:text-[2.5rem] font-bold mb-3 text-white leading-[1.15] font-display tracking-tight">
                 Ready to modernise your waste operation?
               </h2>
-              <p className="text-dark-secondary text-base">
+              <p className="text-white/80 text-base">
                 Start with one block, one campus, or one ward.
               </p>
             </div>
 
             <div className="flex items-center gap-7 shrink-0">
-              <Button onClick={() => navigate('/contact')} className="px-8 py-5 text-sm font-semibold">
+              <Button onClick={() => navigate('/contact')} className="px-8 py-5 text-sm font-semibold bg-white text-[#009688] hover:bg-white/90 border-none">
                 Request a demo
               </Button>
               <button
                 onClick={() => navigate('/contact')}
-                className="text-sm font-semibold text-dark border-b border-gray-400 pb-1.5 flex items-center gap-1.5 hover:border-dark transition-colors"
+                className="text-sm font-semibold text-white border-b border-white/50 pb-1.5 flex items-center gap-1.5 hover:border-white transition-colors"
               >
                 Talk to our experts <ArrowRight className="w-3.5 h-3.5" />
               </button>
