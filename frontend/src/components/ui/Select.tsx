@@ -3,13 +3,14 @@ import { cn } from '@/lib/utils';
 import { ChevronDown } from 'lucide-react';
 
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
+  label?: React.ReactNode;
   error?: string;
   options: { value: string; label: string }[];
+  placeholder?: string;
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, error, options, ...props }, ref) => {
+  ({ className, label, error, options, placeholder = 'Select an option', ...props }, ref) => {
     return (
       <div className="flex flex-col space-y-1.5 w-full relative">
         {label && <label className="text-sm font-semibold text-dark-secondary">{label}</label>}
@@ -23,7 +24,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             )}
             {...props}
           >
-            <option value="" disabled>Select an option</option>
+            <option value="" disabled>{placeholder}</option>
             {options.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}

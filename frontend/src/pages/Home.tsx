@@ -1,12 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
-import { 
-  ArrowRight, Cloud, Wifi, MapPin, Trash2, Building2,
-  Map, Activity, Zap, Leaf, Plane, Train, Briefcase, 
-  Stethoscope, Building, Users, Home as HomeIcon, Settings, Truck, AlertTriangle,
-  BarChart3, LineChart, Search, Bell, ChevronDown, FileText, CheckCircle2
-} from 'lucide-react';
+import { ArrowRight, Trash2, Zap, Activity } from 'lucide-react';
+
+/* Wayfinding label at the top of each narrative section. */
+function SectionMarker({ label, dark = false }: { label: string; dark?: boolean }) {
+  return (
+    <div
+      className={`text-[11px] tracking-[0.16em] uppercase font-semibold mb-6 ${
+        dark ? 'text-primary' : 'text-primary-hover'
+      }`}
+    >
+      {label}
+    </div>
+  );
+}
 
 export default function Home() {
   const navigate = useNavigate();
@@ -61,7 +69,7 @@ export default function Home() {
       </section>
 
       {/* --- PROBLEM SECTION (Full-Width Dark Section with Background Image) --- */}
-      <section className="w-full relative text-white py-32 border-b border-gray-800 overflow-hidden">
+      <section className="w-full relative text-white py-24 border-b border-gray-800 overflow-hidden">
         {/* Background Image */}
         <img 
           src="/problem-bg.jpg" 
@@ -72,6 +80,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/80"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <SectionMarker label="The Problem" dark />
           <div className="max-w-3xl mb-14">
             <h2 className="text-3xl md:text-4xl font-bold leading-tight text-white mb-4">
               Traditional Waste Collection is Costly, Reactive, and Inefficient
@@ -115,270 +124,234 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- SOLUTION SECTION with Seamless Brand Luminous Accent --- */}
-      <section className="w-full bg-[#FAFBFD] py-32 border-b border-gray-100 relative overflow-hidden">
-        {/* Subtle background ambient teal glow */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2/3 h-full bg-radial from-primary/[0.04] via-transparent to-transparent pointer-events-none" />
-
-        {/* Logo in Exact #1a1d1f Color */}
-        <div 
-          className="absolute right-0 top-0 bottom-0 w-full lg:w-2/3 pointer-events-none select-none overflow-hidden flex items-center justify-end z-0"
-          aria-hidden="true"
-        >
-          <div 
-            className="h-[135%] w-auto aspect-[1.4] translate-x-[28%] translate-y-[1%] -rotate-[3.5deg] bg-[#1a1d1f]"
-            style={{
-              maskImage: 'url(/company-logo.png)',
-              WebkitMaskImage: 'url(/company-logo.png)',
-              maskSize: 'contain',
-              WebkitMaskSize: 'contain',
-              maskPosition: 'right center',
-              WebkitMaskPosition: 'right center',
-              maskRepeat: 'no-repeat',
-              WebkitMaskRepeat: 'no-repeat'
-            }}
-          />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight text-dark font-display tracking-tight">
-              One Intelligent Platform. <span className="text-primary">Complete Waste Visibility.</span>
-            </h2>
-            <p className="text-dark-secondary text-base leading-relaxed">
-              From smartSensors and IoT gateways to cloud analytics and driver dispatch, XelCo automates every step of modern sanitation operations.
-            </p>
+      {/* --- PLATFORM PIPELINE SECTION --- */}
+      <section className="w-full bg-[#F8F9FA] py-20 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionMarker label="The Platform" />
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
+            <div className="max-w-xl">
+              <h2 className="text-4xl md:text-5xl font-bold mb-5 leading-[1.12] text-dark font-display tracking-tight">
+                One intelligent platform.<br />
+                <span className="text-primary">Complete waste visibility.</span>
+              </h2>
+              <p className="text-dark-secondary text-base leading-relaxed max-w-sm">
+                Sensors report. The platform decides. Crews collect only what is full.
+              </p>
+            </div>
+            <div className="text-[11px] tracking-[0.16em] uppercase text-gray-400 font-medium shrink-0 lg:pb-1">
+              Bin &rarr; Dispatch
+            </div>
           </div>
 
-          {/* Workflow Steps - Thicker Dividers, Raw Big Dark Icons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-0 lg:divide-x-2 divide-gray-300 py-4">
-            {/* Step 1 */}
-            <div className="flex flex-row items-center gap-4 lg:px-6 first:pl-0">
-              <Trash2 className="w-8 h-8 text-gray-800 shrink-0 stroke-[1.75]" />
-              <div>
-                <h3 className="font-bold text-sm text-dark mb-0.5">Smart Bins</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">Ultrasound Fill Sensors</p>
+          {/* Pipeline: 01 → 02 → [03–04 merged] → 05 */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_2.5fr_auto_1fr] gap-y-10 items-stretch">
+            <div className="lg:pt-10">
+              <div className="text-[11px] text-gray-400 font-medium mb-3">01</div>
+              <h3 className="font-bold text-base text-dark mb-1.5">Smart Bins</h3>
+              <p className="text-sm text-gray-500 leading-relaxed">Ultrasonic fill sensors</p>
+            </div>
+
+            <div className="hidden lg:flex items-center justify-center px-5 text-gray-300">
+              <ArrowRight className="w-4 h-4 stroke-[1.5]" />
+            </div>
+
+            <div className="lg:pt-10">
+              <div className="text-[11px] text-gray-400 font-medium mb-3">02</div>
+              <h3 className="font-bold text-base text-dark mb-1.5">IoT Gateway</h3>
+              <p className="text-sm text-gray-500 leading-relaxed">Cellular / NB-IoT sync</p>
+            </div>
+
+            <div className="hidden lg:flex items-center justify-center px-5 text-gray-300">
+              <ArrowRight className="w-4 h-4 stroke-[1.5]" />
+            </div>
+
+            {/* Merged 03–04 card */}
+            <div className="bg-white border border-gray-200 border-t-2 border-t-primary flex flex-col">
+              <div className="px-6 pt-9 pb-6">
+                <div className="flex items-baseline justify-between gap-4 mb-4">
+                  <span className="text-[11px] text-primary font-semibold">03 &mdash; 04</span>
+                  <span className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-medium">
+                    Where the work happens
+                  </span>
+                </div>
+                <h3 className="font-bold text-xl md:text-2xl text-dark leading-tight">
+                  Cloud Platform + Analytics Engine
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 border-t border-gray-100 divide-x divide-gray-100 mt-auto">
+                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">Central data hub</div>
+                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">Predictive overflow alerts</div>
+                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">Dynamic route optimisation</div>
+                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">ESG &amp; compliance reports</div>
               </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="flex flex-row items-center gap-4 lg:px-6">
-              <Wifi className="w-8 h-8 text-gray-800 shrink-0 stroke-[1.75]" />
-              <div>
-                <h3 className="font-bold text-sm text-dark mb-0.5">IoT Gateway</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">Cellular / NBIoT Sync</p>
-              </div>
+            <div className="hidden lg:flex items-center justify-center px-5 text-gray-300">
+              <ArrowRight className="w-4 h-4 stroke-[1.5]" />
             </div>
 
-            {/* Step 3 */}
-            <div className="flex flex-row items-center gap-4 lg:px-6">
-              <Cloud className="w-8 h-8 text-gray-800 shrink-0 stroke-[1.75]" />
-              <div>
-                <h3 className="font-bold text-sm text-dark mb-0.5">Cloud Platform</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">Central Data Hub</p>
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex flex-row items-center gap-4 lg:px-6">
-              <LineChart className="w-8 h-8 text-gray-800 shrink-0 stroke-[1.75]" />
-              <div>
-                <h3 className="font-bold text-sm text-dark mb-0.5">Analytics Engine</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">Predictive Routing AI</p>
-              </div>
-            </div>
-
-            {/* Step 5 */}
-            <div className="flex flex-row items-center gap-4 lg:px-6">
-              <Truck className="w-8 h-8 text-gray-800 shrink-0 stroke-[1.75]" />
-              <div>
-                <h3 className="font-bold text-sm text-dark mb-0.5">Fleet Crew</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">Turn-by-turn Navigation</p>
-              </div>
+            <div className="lg:pt-10">
+              <div className="text-[11px] text-gray-400 font-medium mb-3">05</div>
+              <h3 className="font-bold text-base text-dark mb-1.5">Fleet Crew</h3>
+              <p className="text-sm text-gray-500 leading-relaxed">Turn-by-turn navigation</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- CENTRALIZED CONTROL SECTION (Full-Width Dark Section) --- */}
-      <section className="w-full bg-[#181B1E] text-white py-24 border-b border-gray-800">
+      {/* --- CENTRALIZED CONTROL SECTION --- */}
+      <section className="w-full bg-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            
+          <SectionMarker label="The Control Center" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
             {/* Left Content */}
             <div className="lg:col-span-5">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight text-white">
-                Manage Every Bin from One Command Center
+              <h2 className="text-4xl md:text-[2.75rem] font-bold mb-5 leading-[1.12] text-dark font-display tracking-tight">
+                Manage every bin from one command center
               </h2>
-              <p className="text-base text-gray-300 mb-10 leading-relaxed">
-                Gain instant visibility across thousands of smart bins. Receive predictive overflow alerts, track live fleet routes, and export compliance reports seamlessly.
+              <p className="text-base text-dark-secondary mb-10 leading-relaxed max-w-md">
+                Thousands of bins, one screen &mdash; with the alerts and routes generated for you.
               </p>
-              
-              <div className="grid grid-cols-2 gap-3.5">
-                <div className="bg-[#212529] border border-gray-800/80 px-4 py-3 rounded-lg flex items-center gap-3 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span className="font-semibold text-sm text-gray-200">Live Monitoring</span>
+
+              <div className="flex flex-col gap-7 mb-10">
+                <div className="border-l-2 border-primary pl-5">
+                  <h3 className="font-bold text-lg text-dark mb-1.5">Live monitoring</h3>
+                  <p className="text-sm text-dark-secondary leading-relaxed">
+                    Fill level and health for every bin on the network.
+                  </p>
                 </div>
-                <div className="bg-[#212529] border border-gray-800/80 px-4 py-3 rounded-lg flex items-center gap-3 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span className="font-semibold text-sm text-gray-200">Analytics & Reports</span>
+                <div className="border-l-2 border-primary pl-5">
+                  <h3 className="font-bold text-lg text-dark mb-1.5">Route optimisation</h3>
+                  <p className="text-sm text-dark-secondary leading-relaxed">
+                    Daily routes built from actual fill data, not fixed schedules.
+                  </p>
                 </div>
-                <div className="bg-[#212529] border border-gray-800/80 px-4 py-3 rounded-lg flex items-center gap-3 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span className="font-semibold text-sm text-gray-200">Route Optimization</span>
+              </div>
+
+              <div className="border-t border-gray-200 pt-6">
+                <div className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-medium mb-4">
+                  Also in the platform
                 </div>
-                <div className="bg-[#212529] border border-gray-800/80 px-4 py-3 rounded-lg flex items-center gap-3 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span className="font-semibold text-sm text-gray-200">Asset Tracking</span>
-                </div>
-                <div className="bg-[#212529] border border-gray-800/80 px-4 py-3 rounded-lg flex items-center gap-3 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span className="font-semibold text-sm text-gray-200">Predictive Alerts</span>
-                </div>
-                <div className="bg-[#212529] border border-gray-800/80 px-4 py-3 rounded-lg flex items-center gap-3 shadow-sm">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                  <span className="font-semibold text-sm text-gray-200">Team Management</span>
+                <div className="grid grid-cols-2 gap-y-3 gap-x-6 max-w-md">
+                  <span className="text-[15px] text-dark">Predictive alerts</span>
+                  <span className="text-[15px] text-dark">Analytics &amp; reports</span>
+                  <span className="text-[15px] text-dark">Asset tracking</span>
+                  <span className="text-[15px] text-dark">Team management</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Dashboard Mockup (Clean Rectangular Container) */}
+            {/* Right Dashboard Mockup */}
             <div className="lg:col-span-7">
-              <div className="bg-white border border-gray-200 shadow-xl overflow-hidden flex flex-col rounded-xl">
+              <div className="bg-white border border-gray-200 shadow-sm overflow-hidden flex flex-col">
                 {/* Dashboard Top Bar */}
-                <div className="h-14 border-b border-gray-100 flex items-center justify-between px-6 bg-gray-50">
-                  <div className="flex items-center gap-2">
-                    <span className="text-primary font-bold text-lg">XelCo</span>
+                <div className="h-14 border-b border-gray-100 flex items-center justify-between px-5 gap-4">
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-primary font-bold text-base">XelCo</span>
                     <span className="text-xs text-gray-400 pl-2 border-l border-gray-200">Control Center</span>
                   </div>
-                  <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 text-[10px] text-gray-400 w-44 shrink-0 rounded-md">
-                    <Search className="w-3 h-3 text-gray-400" />
+                  <div className="hidden sm:flex items-center px-3 py-1.5 border border-gray-200 text-[10px] text-gray-400 flex-1 max-w-[220px] rounded-sm">
                     <span className="truncate">Search bin network...</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <button className="text-gray-400 hover:text-gray-600 relative p-0.5">
-                      <Bell className="w-4 h-4" />
-                      <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-primary rounded-full"></span>
-                    </button>
-                    <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="hidden sm:block text-[9px] tracking-[0.12em] uppercase text-gray-400 border border-gray-200 px-2 py-1 font-semibold">
+                      Demo data
+                    </span>
+                    <div className="flex items-center gap-2">
                       <div className="w-6 h-6 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full">A</div>
                       <span className="text-[11px] font-semibold text-dark">Admin</span>
-                      <ChevronDown className="w-3 h-3 text-gray-400" />
                     </div>
                   </div>
                 </div>
 
                 <div className="flex h-[440px]">
                   {/* Dashboard Sidebar */}
-                  <div className="w-40 border-r border-gray-100 bg-white p-3 flex flex-col gap-1 shrink-0">
-                    <div className="flex items-center gap-2 px-3 py-2 bg-primary/10 text-primary text-xs font-bold border-l-2 border-primary">
-                      <Activity className="w-3.5 h-3.5"/> 
-                      <span>Dashboard</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 text-gray-500 hover:bg-gray-50 text-xs font-medium">
-                      <Trash2 className="w-3.5 h-3.5"/> 
-                      <span>Bins</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 text-gray-500 hover:bg-gray-50 text-xs font-medium">
-                      <Truck className="w-3.5 h-3.5"/> 
-                      <span>Collections</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 text-gray-500 hover:bg-gray-50 text-xs font-medium">
-                      <Map className="w-3.5 h-3.5"/> 
-                      <span>Routes</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 text-gray-500 hover:bg-gray-50 text-xs font-medium">
-                      <AlertTriangle className="w-3.5 h-3.5"/> 
-                      <span>Alerts</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 text-gray-500 hover:bg-gray-50 text-xs font-medium">
-                      <BarChart3 className="w-3.5 h-3.5"/> 
-                      <span>Analytics</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 text-gray-500 hover:bg-gray-50 text-xs font-medium">
-                      <FileText className="w-3.5 h-3.5"/> 
-                      <span>Reports</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 text-gray-500 hover:bg-gray-50 text-xs font-medium">
-                      <Settings className="w-3.5 h-3.5"/> 
-                      <span>Settings</span>
-                    </div>
+                  <div className="w-40 border-r border-gray-100 py-3 flex flex-col gap-0.5 shrink-0">
+                    <div className="px-4 py-2 bg-primary/[0.07] text-primary text-xs font-bold border-l-2 border-primary">Dashboard</div>
+                    <div className="px-4 py-2 text-gray-500 text-xs font-medium">Bins</div>
+                    <div className="px-4 py-2 text-gray-500 text-xs font-medium">Collections</div>
+                    <div className="px-4 py-2 text-gray-500 text-xs font-medium">Routes</div>
+                    <div className="px-4 py-2 text-gray-500 text-xs font-medium">Alerts</div>
+                    <div className="px-4 py-2 text-gray-500 text-xs font-medium">Analytics</div>
+                    <div className="px-4 py-2 text-gray-500 text-xs font-medium">Reports</div>
+                    <div className="px-4 py-2 text-gray-500 text-xs font-medium">Settings</div>
                   </div>
 
                   {/* Dashboard Main Content */}
                   <div className="flex-1 p-4 bg-gray-50/60 overflow-hidden flex flex-col">
-                    <h3 className="font-bold text-dark text-xs mb-3">Live Fleet Overview</h3>
-                    
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-bold text-dark text-xs">Live fleet overview</h3>
+                      <span className="text-[10px] text-gray-400">Today &middot; 09:41</span>
+                    </div>
+
                     {/* Top Stats */}
                     <div className="grid grid-cols-4 gap-2 mb-3">
-                      <div className="bg-white p-2.5 border border-gray-100 shadow-sm rounded-lg">
-                        <div className="text-[9px] font-bold text-gray-400">Total Bins</div>
-                        <div className="text-base font-bold text-dark leading-tight mt-0.5">Active</div>
+                      <div className="bg-white p-2.5 border border-gray-100">
+                        <div className="text-[8px] font-bold text-gray-400 tracking-[0.1em] uppercase">Bins online</div>
+                        <div className="text-lg font-bold text-dark leading-tight mt-1">1,284</div>
                       </div>
-                      <div className="bg-white p-2.5 border border-gray-100 shadow-sm rounded-lg">
-                        <div className="text-[9px] font-bold text-gray-400">Avg Fill</div>
-                        <div className="text-base font-bold text-dark leading-tight mt-0.5">Optimal</div>
+                      <div className="bg-white p-2.5 border border-gray-100">
+                        <div className="text-[8px] font-bold text-gray-400 tracking-[0.1em] uppercase">Avg fill</div>
+                        <div className="text-lg font-bold text-dark leading-tight mt-1">62%</div>
                       </div>
-                      <div className="bg-white p-2.5 border border-gray-100 shadow-sm rounded-lg">
-                        <div className="text-[9px] font-bold text-gray-400">Dispatches</div>
-                        <div className="text-base font-bold text-dark leading-tight mt-0.5">On Schedule</div>
+                      <div className="bg-white p-2.5 border border-gray-100">
+                        <div className="text-[8px] font-bold text-gray-400 tracking-[0.1em] uppercase">Dispatched</div>
+                        <div className="text-lg font-bold text-dark leading-tight mt-1">38</div>
                       </div>
-                      <div className="bg-white p-2.5 border border-gray-100 shadow-sm rounded-lg">
-                        <div className="text-[9px] font-bold text-gray-400">Fleet Status</div>
-                        <div className="text-base font-bold text-dark leading-tight mt-0.5">Online</div>
+                      <div className="bg-white p-2.5 border border-gray-100">
+                        <div className="text-[8px] font-bold text-gray-400 tracking-[0.1em] uppercase">Alerts</div>
+                        <div className="text-lg font-bold text-primary leading-tight mt-1">4</div>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-12 gap-3 flex-1 min-h-0">
-                      {/* Donut Chart Mockup */}
-                      <div className="bg-white p-3 border border-gray-100 col-span-5 shadow-sm flex flex-col rounded-lg">
-                        <div className="text-[10px] font-bold text-dark mb-2">Capacity Monitor</div>
-                        <div className="flex-1 flex items-center justify-between gap-2">
-                          <div className="relative flex items-center justify-center shrink-0">
-                            <div className="w-16 h-16 border-[8px] border-t-primary/90 border-r-primary/60 border-b-primary/30 border-l-primary flex items-center justify-center">
-                              <div className="w-10 h-10 bg-white"></div>
+                      {/* Capacity Donut */}
+                      <div className="bg-white p-3 border border-gray-100 col-span-5 flex flex-col">
+                        <div className="text-[10px] font-bold text-dark mb-2">Capacity monitor</div>
+                        <div className="flex-1 flex items-center justify-between gap-3">
+                          <svg viewBox="0 0 42 42" className="w-20 h-20 shrink-0 -rotate-90" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#B2DFDB" strokeWidth="6" />
+                            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#009688" strokeWidth="6" strokeDasharray="34 66" />
+                          </svg>
+                          <div className="flex flex-col gap-2 text-[10px] flex-1">
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-500">Critical</span>
+                              <span className="font-bold text-dark">86</span>
                             </div>
-                          </div>
-                          <div className="flex flex-col gap-1.5 text-[9px] font-bold text-gray-400 flex-1 pl-1">
-                            <div className="flex items-center justify-between border-b border-gray-50 pb-1">
-                              <span className="text-gray-600">Critical</span>
-                              <span className="text-primary">High</span>
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-500">Moderate</span>
+                              <span className="font-bold text-dark">512</span>
                             </div>
-                            <div className="flex items-center justify-between border-b border-gray-50 pb-1">
-                              <span className="text-gray-600">Moderate</span>
-                              <span className="text-primary/70">Normal</span>
-                            </div>
-                            <div className="flex items-center justify-between pb-1">
-                              <span className="text-gray-600">Clear</span>
-                              <span className="text-primary/40">Low</span>
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-500">Clear</span>
+                              <span className="font-bold text-dark">686</span>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      {/* Map/Routes Mockup */}
-                      <div className="bg-white p-3 border border-gray-100 col-span-7 shadow-sm flex flex-col relative overflow-hidden rounded-lg">
-                        <div className="text-[10px] font-bold text-dark mb-2 z-10">Active Collection Map</div>
-                        <div className="flex-1 bg-emerald-50/20 border border-gray-100 relative overflow-hidden flex items-center justify-center rounded-md">
+                      {/* Route Map */}
+                      <div className="bg-white p-3 border border-gray-100 col-span-7 flex flex-col overflow-hidden">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] font-bold text-dark">Active collection map</span>
+                          <span className="text-[9px] text-gray-400">Route 12 &middot; 9 stops</span>
+                        </div>
+                        <div className="flex-1 border border-gray-100 relative overflow-hidden">
                           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                            <line x1="0" y1="20" x2="300" y2="20" stroke="#E6ECE9" strokeWidth="1" />
-                            <line x1="0" y1="50" x2="300" y2="50" stroke="#E6ECE9" strokeWidth="1" />
-                            <line x1="0" y1="80" x2="300" y2="80" stroke="#E6ECE9" strokeWidth="1" />
-                            <line x1="0" y1="100" x2="300" y2="100" stroke="#E6ECE9" strokeWidth="1" />
-                            
-                            <line x1="40" y1="0" x2="40" y2="120" stroke="#E6ECE9" strokeWidth="1" />
-                            <line x1="100" y1="0" x2="100" y2="120" stroke="#E6ECE9" strokeWidth="1" />
-                            <line x1="160" y1="0" x2="160" y2="120" stroke="#E6ECE9" strokeWidth="1" />
-                            <line x1="220" y1="0" x2="220" y2="120" stroke="#E6ECE9" strokeWidth="1" />
-                            <line x1="280" y1="0" x2="280" y2="120" stroke="#E6ECE9" strokeWidth="1" />
-
-                            <path d="M40,80 L100,30 L160,50 L220,20 L280,70" fill="none" stroke="#009688" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-
-                            <circle cx="40" cy="80" r="4" fill="#009688" />
-                            <circle cx="100" cy="30" r="4" fill="#009688" />
-                            <circle cx="160" cy="50" r="4" fill="#009688" />
-                            <circle cx="220" cy="20" r="4" fill="#009688" />
-                            <circle cx="280" cy="70" r="4" fill="#009688" />
+                            <line x1="0" y1="30" x2="300" y2="30" stroke="#F0F0F0" strokeWidth="1" />
+                            <line x1="0" y1="60" x2="300" y2="60" stroke="#F0F0F0" strokeWidth="1" />
+                            <line x1="0" y1="90" x2="300" y2="90" stroke="#F0F0F0" strokeWidth="1" />
+                            <line x1="60" y1="0" x2="60" y2="120" stroke="#F0F0F0" strokeWidth="1" />
+                            <line x1="120" y1="0" x2="120" y2="120" stroke="#F0F0F0" strokeWidth="1" />
+                            <line x1="180" y1="0" x2="180" y2="120" stroke="#F0F0F0" strokeWidth="1" />
+                            <line x1="240" y1="0" x2="240" y2="120" stroke="#F0F0F0" strokeWidth="1" />
+                            <path d="M40,95 L100,35 L160,60 L215,22 L275,80" fill="none" stroke="#009688" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                            <circle cx="40" cy="95" r="4" fill="#009688" />
+                            <circle cx="100" cy="35" r="4" fill="#009688" />
+                            <circle cx="160" cy="60" r="4" fill="#009688" />
+                            <circle cx="215" cy="22" r="4" fill="#009688" />
+                            <circle cx="275" cy="80" r="4" fill="#009688" />
                           </svg>
                         </div>
                       </div>
@@ -386,81 +359,132 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              <p className="text-[11px] text-gray-400 mt-3">XelCo Control Center &middot; illustrative data</p>
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* --- INDUSTRIES WE SERVE (Full-Width Slate Section) --- */}
-      <section className="w-full bg-slate-50 py-20 border-b border-gray-200">
+      {/* --- PRODUCTS: three bins, three markets --- */}
+      <section className="w-full bg-white py-20 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-dark mb-3">Built for Every Environment</h2>
-            <p className="text-gray-500 text-sm">Deployable across public, commercial, and institutional infrastructure.</p>
-          </div>
-
-          {/* 6 Elements with Vertical Dividers and No Boxes */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-0 lg:divide-x-2 divide-gray-300 py-4 max-w-6xl mx-auto">
-            {/* 1 */}
-            <div className="flex flex-col items-center text-center lg:px-4">
-              <Building2 className="w-8 h-8 text-gray-800 mb-3 stroke-[1.75]" />
-              <span className="text-sm font-bold text-dark">Municipalities</span>
-            </div>
-
-            {/* 2 */}
-            <div className="flex flex-col items-center text-center lg:px-4">
-              <Plane className="w-8 h-8 text-gray-800 mb-3 stroke-[1.75]" />
-              <span className="text-sm font-bold text-dark">Airports</span>
-            </div>
-
-            {/* 3 */}
-            <div className="flex flex-col items-center text-center lg:px-4">
-              <Train className="w-8 h-8 text-gray-800 mb-3 stroke-[1.75]" />
-              <span className="text-sm font-bold text-dark">Railways</span>
-            </div>
-
-            {/* 4 */}
-            <div className="flex flex-col items-center text-center lg:px-4">
-              <Briefcase className="w-8 h-8 text-gray-800 mb-3 stroke-[1.75]" />
-              <span className="text-sm font-bold text-dark">Universities</span>
-            </div>
-
-            {/* 5 */}
-            <div className="flex flex-col items-center text-center lg:px-4">
-              <Stethoscope className="w-8 h-8 text-gray-800 mb-3 stroke-[1.75]" />
-              <span className="text-sm font-bold text-dark">Hospitals</span>
-            </div>
-
-            {/* 6 */}
-            <div className="flex flex-col items-center text-center lg:px-4">
-              <Wifi className="w-8 h-8 text-gray-800 mb-3 stroke-[1.75]" />
-              <span className="text-sm font-bold text-dark">Smart Cities</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- PRE-FOOTER CTA (Full-Width Primary Teal Section) --- */}
-      <section className="w-full bg-[#009688] text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-xl text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white leading-tight">
-                Ready to Transform Your Waste Management?
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
+            <div>
+              <SectionMarker label="Products" />
+              <h2 className="text-4xl md:text-5xl font-bold leading-[1.12] text-dark font-display tracking-tight">
+                Three bins. Three markets.
               </h2>
-              <p className="text-white/70 text-base">
-                Join leading facility managers and forward-thinking municipalities in the transition to intelligent sanitation.
+            </div>
+            <p className="text-[15px] text-dark-secondary leading-relaxed max-w-xs shrink-0 lg:pt-9">
+              One platform behind all three: homes, enterprises and city corporations.
+            </p>
+          </div>
+
+          <div className="border-t border-gray-200 pt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                id: 'residential',
+                img: '/home-bin-v0.0.1.png',
+                tag: 'B2C · Homes & societies',
+                name: 'Residential Smart Bin',
+                desc: 'Touchless, odour-free disposal with per-household segregation.',
+                short: 'Residential',
+              },
+              {
+                id: 'commercial',
+                img: '/commercial-bin-v0.0.1.png',
+                tag: 'B2B · Enterprises & facilities',
+                name: 'Commercial Smart Bin',
+                desc: 'Multi-stream segregation with audit-ready ESG data.',
+                short: 'Commercial',
+              },
+              {
+                id: 'municipal',
+                img: '/municipal-bin-v0.0.1.png',
+                tag: 'B2G · City corporations',
+                name: 'Municipal Smart Bin',
+                desc: 'Solar compaction and dynamic fleet routing for public bins.',
+                short: 'Municipal',
+              },
+            ].map((p) => (
+              <div key={p.id} className="border border-gray-200 flex flex-col">
+                <div className="bg-[#F8F9FA] flex items-center justify-center p-8 h-[280px]">
+                  <img
+                    src={p.img}
+                    alt={`XelCo ${p.name}`}
+                    className="max-h-full w-auto object-contain"
+                  />
+                </div>
+                <div className="p-6 border-t border-gray-200 flex flex-col flex-1">
+                  <div className="text-[10px] tracking-[0.14em] uppercase text-gray-500 font-semibold mb-3">
+                    {p.tag}
+                  </div>
+                  <h3 className="text-xl font-bold text-dark mb-3 font-display tracking-tight">{p.name}</h3>
+                  <p className="text-sm text-dark-secondary leading-relaxed mb-6">{p.desc}</p>
+                  <button
+                    onClick={() => navigate(`/products/${p.id}`)}
+                    className="text-sm text-primary-hover font-semibold flex items-center gap-1.5 mt-auto self-start hover:text-dark transition-colors"
+                  >
+                    {p.short} <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- DEPLOYED IN (compact sector strip) --- */}
+      <section className="w-full bg-primary/[0.18] py-10 border-y border-primary/[0.28]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-10">
+            <span className="text-[11px] tracking-[0.16em] uppercase text-gray-600 font-medium shrink-0">
+              Deployed in
+            </span>
+            <div className="flex flex-wrap items-center gap-y-2 flex-1">
+              {['Municipalities', 'Airports', 'Railways', 'Universities', 'Hospitals', 'Smart cities'].map((sector, i) => (
+                <span
+                  key={sector}
+                  className={`text-base text-dark px-5 leading-tight ${i > 0 ? 'border-l border-primary/25' : 'pl-0'}`}
+                >
+                  {sector}
+                </span>
+              ))}
+            </div>
+            <button
+              onClick={() => navigate('/solutions#sector-outcomes')}
+              className="text-sm text-primary-hover font-semibold shrink-0 flex items-center gap-1.5 hover:text-dark self-start md:self-auto"
+            >
+              Sector outcomes <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* --- PRE-FOOTER CTA --- */}
+      <section className="w-full bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-l-[3px] border-primary pl-6 md:pl-8">
+            <div className="max-w-lg">
+              <h2 className="text-3xl md:text-[2.5rem] font-bold mb-3 text-dark leading-[1.15] font-display tracking-tight">
+                Ready to modernise your waste operation?
+              </h2>
+              <p className="text-dark-secondary text-base">
+                Start with one block, one campus, or one ward.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-              <Button onClick={() => navigate('/contact')} className="px-8 py-6 text-base font-semibold border-white bg-white hover:bg-gray-100 text-dark">
-                Request a Demo <ArrowRight className="ml-2 w-4 h-4" />
+            <div className="flex items-center gap-7 shrink-0">
+              <Button onClick={() => navigate('/contact')} className="px-8 py-5 text-sm font-semibold">
+                Request a demo
               </Button>
-              <Button variant="outline" onClick={() => navigate('/contact')} className="px-8 py-6 text-base font-semibold border-white text-white bg-transparent hover:bg-white/10">
-                Talk to Our Experts
-              </Button>
+              <button
+                onClick={() => navigate('/contact')}
+                className="text-sm font-semibold text-dark border-b border-gray-400 pb-1.5 flex items-center gap-1.5 hover:border-dark transition-colors"
+              >
+                Talk to our experts <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
         </div>

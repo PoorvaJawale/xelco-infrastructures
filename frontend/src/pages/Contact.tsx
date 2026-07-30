@@ -1,158 +1,209 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
+import { useNavigate } from 'react-router-dom';
+
+const productOptions = [
+  { label: 'Residential (B2C)', value: 'residential' },
+  { label: 'Commercial (B2B)', value: 'commercial' },
+  { label: 'Municipal (B2G)', value: 'municipal' },
+  { label: 'General enquiry', value: 'general' },
+];
+
+const enquiryOptions = [
+  { label: 'Demo request', value: 'demo' },
+  { label: 'Pricing', value: 'pricing' },
+  { label: 'Partnership', value: 'partnership' },
+  { label: 'Technical support', value: 'support' },
+];
+
+const specByProduct: Record<string, { label: string; href: string }> = {
+  residential: { label: 'Read the Residential Smart Bin spec while you wait', href: '/products/residential' },
+  commercial: { label: 'Read the Commercial Smart Bin spec while you wait', href: '/products/commercial' },
+  municipal: { label: 'Read the Municipal Smart Bin spec while you wait', href: '/products/municipal' },
+  general: { label: 'Browse the full product range while you wait', href: '/products' },
+};
+
+const routingNote: Record<string, string> = {
+  residential: 'Residential enquiries go to the housing societies team.',
+  commercial: 'Commercial enquiries go to the facilities team.',
+  municipal: 'Municipal enquiries go to the pilot deployment team.',
+  general: 'We will route your enquiry to the right team.',
+};
 
 export default function Contact() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false);
+  const [messageError, setMessageError] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    organisation: '',
+    product: 'municipal',
+    enquiry: '',
+    message: '',
+  });
+
+  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 5000);
+    if (!form.message.trim()) {
+      setMessageError(true);
+      return;
+    }
+    setMessageError(false);
+    setSubmitted(true);
   };
 
+  const spec = specByProduct[form.product] ?? specByProduct.general;
+
   return (
-    <div className="bg-light min-h-screen py-16 lg:py-24">
+    <div className="bg-[#F8F9FA] min-h-screen py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h1>
-          <p className="text-xl text-dark-secondary">
-            Whether you're looking to deploy smartBins, partner with us, or simply want to learn more, our team is ready to help.
-          </p>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          
-          {/* Contact Info */}
-          <div className="lg:col-span-1 space-y-8">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-border">
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mr-4">
-                    <Mail className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-dark">Email Us</p>
-                    <a href="mailto:ceo@xelcoinfratech.com" className="text-dark-secondary hover:text-primary transition-colors">info@xelcoinfratech.com</a>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mr-4">
-                    <Phone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-dark">Call Us</p>
-                    <a href="tel:+919619773835" className="text-dark-secondary hover:text-primary transition-colors">+91 96197 73835</a>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mr-4">
-                    <MapPin className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-dark">Global Headquarters</p>
-                    <p className="text-dark-secondary leading-relaxed">
-                      XelCo Group H.Q, BKC<br/>
-                      Bandra, Mumbai<br/>
-                      Maharashtra, India 400051
-                    </p>
-                  </div>
-                </div>
+          {/* --- Left: heading + details --- */}
+          <div className="lg:col-span-4">
+            <h1 className="text-4xl md:text-[2.75rem] font-bold text-dark font-display tracking-tight leading-[1.12] mb-3">
+              Get in touch
+            </h1>
+            <p className="text-[15px] text-dark-secondary mb-10">Replies within one business day.</p>
 
-                <div className="flex items-start">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mr-4">
-                    <Clock className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-dark">Business Hours</p>
-                    <p className="text-dark-secondary">Mon-Fri: 8:00 AM - 6:00 PM (PST)</p>
-                    <p className="text-xs text-disabled mt-1">Expected response time: &lt;24 hours</p>
-                  </div>
-                </div>
+            <div className="border-t-2 border-dark">
+              <div className="py-4 border-b border-gray-200">
+                <div className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-semibold mb-1.5">Email</div>
+                <a href="mailto:info@xelcoinfratech.com" className="text-[15px] text-primary-hover hover:text-dark transition-colors">
+                  info@xelcoinfratech.com
+                </a>
+              </div>
+
+              <div className="py-4 border-b border-gray-200">
+                <div className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-semibold mb-1.5">Phone</div>
+                <a href="tel:+919619773835" className="text-[15px] text-primary-hover hover:text-dark transition-colors">
+                  +91 96197 73835
+                </a>
+              </div>
+
+              <div className="py-4 border-b border-gray-200">
+                <div className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-semibold mb-1.5">Headquarters</div>
+                <p className="text-[15px] text-dark leading-relaxed">
+                  XelCo Group H.Q, BKC<br />
+                  Bandra, Mumbai<br />
+                  Maharashtra, India 400051
+                </p>
+              </div>
+
+              <div className="py-4 border-b border-gray-200">
+                <div className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-semibold mb-1.5">Hours</div>
+                <p className="text-[15px] text-dark">Mon&ndash;Fri, 8:00&ndash;18:00 IST</p>
               </div>
             </div>
           </div>
 
-          {/* Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl shadow-dark/5 border border-border">
-              {isSubmitted ? (
-                 <motion.div 
-                   initial={{ opacity: 0, scale: 0.9 }}
-                   animate={{ opacity: 1, scale: 1 }}
-                   className="text-center py-16"
-                  >
-                   <div className="mx-auto w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center mb-6 shadow-lg shadow-primary/30">
-                     <Send className="w-10 h-10 ml-1" />
-                   </div>
-                   <h2 className="text-3xl font-bold mb-4">Message Received!</h2>
-                   <p className="text-lg text-dark-secondary">Thank you for reaching out. An expert from our team will evaluate your inquiry and respond within 24 hours.</p>
-                 </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Input label="Full Name" placeholder="Jane Doe" required />
-                    <Input label="Email Address" type="email" placeholder="jane@company.com" required />
-                  </div>
-                  
-                  <Input label="Company / Organization" placeholder="Optional" />
+          {/* --- Right: form / success --- */}
+          <div className="lg:col-span-8">
+            {submitted ? (
+              <div className="bg-white border border-gray-200 border-l-[3px] border-l-primary p-8">
+                <h2 className="text-xl font-bold text-dark mb-3 font-display tracking-tight">Message received</h2>
+                <p className="text-[15px] text-dark-secondary leading-relaxed mb-5 max-w-lg">
+                  We will reply to{' '}
+                  <span className="text-dark font-semibold">{form.email || 'your address'}</span>{' '}
+                  within one business day. {routingNote[form.product] ?? routingNote.general}
+                </p>
+                <button
+                  onClick={() => navigate(spec.href)}
+                  className="text-sm text-primary-hover font-semibold flex items-center gap-1.5 hover:text-dark transition-colors"
+                >
+                  {spec.label} <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="bg-white border border-gray-200 p-6 md:p-8">
+                <div className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-semibold pb-3 mb-6 border-b border-gray-200">
+                  About you
+                </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Select 
-                      label="Product Interest"
-                      options={[
-                        {label: 'Homes (D2C)', value: 'homes'},
-                        {label: 'Commercial (B2B)', value: 'commercial'},
-                        {label: 'Municipal (B2G)', value: 'municipal'},
-                        {label: 'General Inquiry', value: 'general'}
-                      ]}
-                      required
-                    />
-                    <Select 
-                      label="Inquiry Type"
-                      options={[
-                        {label: 'Demo Request', value: 'demo'},
-                        {label: 'Pricing Information', value: 'pricing'},
-                        {label: 'Partnership', value: 'partnership'},
-                        {label: 'Technical Support', value: 'support'},
-                        {label: 'Other', value: 'other'}
-                      ]}
-                    />
-                  </div>
-
-                  <Textarea 
-                    label="Message" 
-                    placeholder="Tell us about your project, scale, or specific requirements..." 
-                    className="min-h-[150px]"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                  <Input label="Full name" placeholder="Jane Doe" value={form.name} onChange={set('name')} required />
+                  <Input
+                    label="Work email"
+                    type="email"
+                    placeholder="jane@metrocity.gov"
+                    value={form.email}
+                    onChange={set('email')}
                     required
                   />
+                </div>
 
-                  <div className="flex items-center space-x-3 pt-2 pb-4">
-                    <input 
-                      type="checkbox" 
-                      id="optIn" 
-                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
-                    />
-                    <label htmlFor="optIn" className="text-sm text-dark-secondary">
-                      I agree to be contacted about relevant product updates and news.
-                    </label>
-                  </div>
+                <div className="mb-8">
+                  <Input
+                    label={
+                      <>
+                        Organisation <span className="text-gray-400 font-normal">&mdash; optional</span>
+                      </>
+                    }
+                    placeholder="Company or department"
+                    value={form.organisation}
+                    onChange={set('organisation')}
+                  />
+                </div>
 
-                  <Button type="submit" size="lg" className="w-full sm:w-auto px-10">
-                    Send Message
+                <div className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-semibold pb-3 mb-6 border-b border-gray-200">
+                  Your enquiry
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                  <Select
+                    label="Product interest"
+                    options={productOptions}
+                    value={form.product}
+                    onChange={set('product')}
+                    required
+                  />
+                  <Select
+                    label="Enquiry type"
+                    placeholder="Select one"
+                    options={enquiryOptions}
+                    value={form.enquiry}
+                    onChange={set('enquiry')}
+                  />
+                </div>
+
+                <div className="mb-6">
+                  <Textarea
+                    label="What do you need?"
+                    placeholder="Scale, sites, timeline"
+                    className="min-h-[120px]"
+                    value={form.message}
+                    onChange={set('message')}
+                    aria-invalid={messageError}
+                    error={messageError ? ' ' : undefined}
+                  />
+                  <p className={`text-xs mt-1.5 leading-relaxed ${messageError ? 'text-red-600' : 'text-gray-400'}`}>
+                    Tell us roughly how many bins and where &mdash; it routes your enquiry to the right team.
+                  </p>
+                </div>
+
+                <label className="flex items-center gap-3 pb-6 mb-6 border-b border-gray-200 cursor-pointer">
+                  <input type="checkbox" className="w-4 h-4 accent-primary shrink-0" />
+                  <span className="text-sm text-dark-secondary">
+                    Send me product updates. No more than once a month.
+                  </span>
+                </label>
+
+                <div className="flex flex-col sm:flex-row sm:items-center gap-5">
+                  <Button type="submit" className="px-8 py-5 text-sm font-semibold shrink-0">
+                    Send message
                   </Button>
-                </form>
-              )}
-            </div>
+                  <span className="text-sm text-gray-400">We never share your details.</span>
+                </div>
+              </form>
+            )}
           </div>
 
         </div>

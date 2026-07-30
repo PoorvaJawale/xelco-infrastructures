@@ -870,89 +870,83 @@ export default function Products() {
     );
   }
 
-  // If no productId in the URL, render the Product Index Page (the 3 cards)
+  // If no productId in the URL, render the Product Index Page
   return (
-    <div className="pt-24 bg-white min-h-[70vh] flex flex-col justify-center">
-      {/* Visual Product Selector */}
-      <section className="py-12 bg-white">
+    <div className="pt-24 bg-white min-h-[70vh]">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-dark mb-4">Choose Your Infrastructure</h1>
-            <p className="text-lg text-dark-secondary">Select a smart bin solution below to view detailed specifications.</p>
+          <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+            Services
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Commercial Bin Card */}
-            <div 
-              onClick={() => navigate('/products/commercial')}
-              className="flex flex-col border-2 rounded-2xl overflow-hidden transition-all duration-300 border-border hover:border-accent-teal hover:shadow-xl hover:shadow-accent-teal/10 hover:scale-103 cursor-pointer bg-white"
-            >
-              <div className="bg-accent-teal p-6 text-white text-center">
-                <Building className="w-10 h-10 mx-auto mb-3 opacity-90" />
-                <h3 className="text-xl font-bold">Commercial</h3>
-              </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <ul className="space-y-3 mb-8 flex-grow text-dark-secondary font-medium">
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-accent-teal mr-2 shrink-0" /> Multi-stream segregation</li>
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-accent-teal mr-2 shrink-0" /> Real-time fill monitoring</li>
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-accent-teal mr-2 shrink-0" /> Corporate ESG reporting</li>
-                </ul>
-                <Button 
-                  onClick={(e) => { e.stopPropagation(); navigate('/products/commercial'); }}
-                  className="w-full py-6 text-lg bg-accent-teal hover:bg-accent-teal/90 text-white font-semibold rounded-xl"
-                >
-                  View Product
-                </Button>
-              </div>
-            </div>
 
-            {/* Residential Bin Card */}
-            <div 
-              onClick={() => navigate('/products/residential')}
-              className="flex flex-col border-2 rounded-2xl overflow-hidden transition-all duration-300 border-border hover:border-accent-blue hover:shadow-xl hover:shadow-accent-blue/10 hover:scale-103 cursor-pointer bg-white"
-            >
-              <div className="bg-accent-blue p-6 text-white text-center">
-                <Home className="w-10 h-10 mx-auto mb-3 opacity-90" />
-                <h3 className="text-xl font-bold">Residential</h3>
-              </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <ul className="space-y-3 mb-8 flex-grow text-dark-secondary font-medium">
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-accent-blue mr-2 shrink-0" /> 100% Touchless operation</li>
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-accent-blue mr-2 shrink-0" /> Active odor neutralization</li>
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-accent-blue mr-2 shrink-0" /> Mobile app tracking</li>
-                </ul>
-                <Button 
-                  onClick={(e) => { e.stopPropagation(); navigate('/products/residential'); }}
-                  className="w-full py-6 text-lg bg-accent-blue hover:bg-accent-blue/90 text-white font-semibold rounded-xl"
-                >
-                  View Product
-                </Button>
-              </div>
-            </div>
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-10">
+            <h1 className="text-4xl md:text-5xl font-bold leading-[1.12] text-dark font-display tracking-tight">
+              What we run in each market
+            </h1>
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs shrink-0 lg:text-right">
+              Same hardware and cloud stack, configured per buyer.
+            </p>
+          </div>
 
-            {/* Municipal Bin Card */}
-            <div 
-              onClick={() => navigate('/products/municipal')}
-              className="flex flex-col border-2 rounded-2xl overflow-hidden transition-all duration-300 border-border hover:border-primary hover:shadow-xl hover:shadow-primary/10 hover:scale-103 cursor-pointer bg-white"
-            >
-              <div className="bg-primary p-6 text-white text-center">
-                <Building2 className="w-10 h-10 mx-auto mb-3 opacity-90" />
-                <h3 className="text-xl font-bold">Municipal</h3>
-              </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <ul className="space-y-3 mb-8 flex-grow text-dark-secondary font-medium">
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary mr-2 shrink-0" /> Solar powered compactor</li>
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary mr-2 shrink-0" /> 5x waste capacity</li>
-                  <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary mr-2 shrink-0" /> Rugged & vandal-proof</li>
-                </ul>
-                <Button 
-                  onClick={(e) => { e.stopPropagation(); navigate('/products/municipal'); }}
-                  className="w-full py-6 text-lg bg-primary hover:bg-primary-hover text-white font-semibold rounded-xl"
+          <div className="border-t-2 border-dark grid grid-cols-1 md:grid-cols-3 md:divide-x divide-gray-200">
+            {[
+              {
+                id: 'residential',
+                name: 'Residential',
+                tag: 'B2C',
+                items: [
+                  'Touchless smart bins',
+                  'Active odour neutralisation',
+                  'Resident app & recycling stats',
+                  'Housekeeping route planning',
+                ],
+                link: 'Residential Smart Bin',
+              },
+              {
+                id: 'commercial',
+                name: 'Commercial',
+                tag: 'B2B',
+                items: [
+                  'Multi-stream segregation bins',
+                  'Facility-wide admin portal',
+                  'ESG & compliance reporting',
+                  'Janitorial route optimisation',
+                ],
+                link: 'Commercial Smart Bin',
+              },
+              {
+                id: 'municipal',
+                name: 'Municipal',
+                tag: 'B2G',
+                items: [
+                  'Solar compaction street bins',
+                  'City command center',
+                  'AI fleet routing',
+                  'Driver dispatch app',
+                ],
+                link: 'Municipal Smart Bin',
+              },
+            ].map((col, i) => (
+              <div key={col.id} className={`pt-8 pb-2 ${i === 0 ? 'md:pr-8' : 'md:px-8'}`}>
+                <div className="flex items-baseline gap-3 pb-4 border-b border-gray-200">
+                  <h2 className="text-2xl font-bold text-dark font-display tracking-tight">{col.name}</h2>
+                  <span className="text-xs text-gray-400 font-semibold">{col.tag}</span>
+                </div>
+
+                {col.items.map((item) => (
+                  <div key={item} className="py-3.5 border-b border-gray-200 text-[15px] text-dark-secondary">
+                    {item}
+                  </div>
+                ))}
+
+                <button
+                  onClick={() => navigate(`/products/${col.id}`)}
+                  className="text-sm text-primary-hover font-semibold flex items-center gap-1.5 mt-5 hover:text-dark transition-colors"
                 >
-                  View Product
-                </Button>
+                  {col.link} <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
