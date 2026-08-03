@@ -331,8 +331,8 @@ export default function Products() {
         {/* Section 2: The Problem (grey) */}
         <section className="w-full bg-slate-50 py-20 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
-              <div className="max-w-lg shrink-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 lg:items-start">
+              <div className="lg:col-span-7">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-red-500 font-semibold mb-6">
                   The cost of current operations
                 </div>
@@ -344,7 +344,7 @@ export default function Products() {
                 </p>
               </div>
 
-              <div className="flex-1 border-t-2 border-dark">
+              <div className="lg:col-span-5 border-t-2 border-dark">
                 {activeData.problem.points.map((point: string, idx: number) => (
                   <div key={idx} className="py-4 border-b border-gray-200 flex items-start gap-3">
                     <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
@@ -359,8 +359,8 @@ export default function Products() {
         {/* Section 3: Our Solution (white) */}
         <section className="w-full bg-white py-20 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
-              <div className="max-w-lg shrink-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 lg:items-start">
+              <div className="lg:col-span-7">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
                   Our Solution
                 </div>
@@ -372,7 +372,7 @@ export default function Products() {
                 </p>
               </div>
 
-              <div className="flex-1 border-t-2 border-dark">
+              <div className="lg:col-span-5 border-t-2 border-dark">
                 {activeData.solution.benefits.map((benefit: string, idx: number) => (
                   <div key={idx} className="py-4 border-b border-gray-200 flex items-start gap-3">
                     <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />
@@ -387,8 +387,8 @@ export default function Products() {
         {/* Section 4: How It Works (grey) */}
         <section className="w-full bg-slate-50 py-20 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-10">
-              <div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-16 lg:items-start mb-10">
+              <div className="lg:col-span-7">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
                   Deployment path
                 </div>
@@ -396,7 +396,7 @@ export default function Products() {
                   How it works
                 </h2>
               </div>
-              <p className="text-sm text-gray-400 leading-relaxed max-w-xs shrink-0 lg:text-right lg:pt-9">
+              <p className="text-sm text-gray-400 leading-relaxed lg:col-span-5 lg:text-right lg:pt-9">
                 From installation to optimised operations in six steps.
               </p>
             </div>
@@ -418,8 +418,8 @@ export default function Products() {
         {/* Section 5: Features / Operational Benefits (white) */}
         <section className="w-full bg-white py-20 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-10">
-              <div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-16 lg:items-start mb-10">
+              <div className="lg:col-span-7">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
                   Capabilities
                 </div>
@@ -427,7 +427,7 @@ export default function Products() {
                   Operational benefits
                 </h2>
               </div>
-              <p className="text-sm text-gray-400 leading-relaxed max-w-xs shrink-0 lg:text-right lg:pt-9">
+              <p className="text-sm text-gray-400 leading-relaxed lg:col-span-5 lg:text-right lg:pt-9">
                 Purpose-built technology delivering measurable outcomes.
               </p>
             </div>
@@ -449,10 +449,10 @@ export default function Products() {
         {/* Section 6: Technical Specs (grey) */}
         <section className="w-full bg-slate-50 py-20 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 lg:items-start">
 
               {/* LEFT: Technical Specifications */}
-              <div className="flex-1">
+              <div className="lg:col-span-7">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
                   Specifications
                 </div>
@@ -533,7 +533,7 @@ export default function Products() {
               </div>
 
               {/* RIGHT: ROI Metrics */}
-              <div className="lg:w-[380px] shrink-0">
+              <div className="lg:col-span-5">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
                   Impact
                 </div>
@@ -558,8 +558,8 @@ export default function Products() {
         {/* Section 7: Case Study (white) */}
         <section className="w-full bg-white py-20 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row lg:items-start gap-16">
-              <div className="flex-1">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 lg:items-start">
+              <div className="lg:col-span-7">
                 <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
                   Case study
                 </div>
@@ -582,7 +582,7 @@ export default function Products() {
                 </div>
               </div>
 
-              <div className="lg:w-[500px] shrink-0 aspect-[4/3] overflow-hidden bg-white flex items-center justify-center">
+              <div className="lg:col-span-5 aspect-[4/3] overflow-hidden bg-white flex items-center justify-center">
                 <img src={activeData.hero.image} alt={activeData.caseStudy.client} className="w-full h-full object-contain" />
               </div>
             </div>
@@ -623,18 +623,18 @@ export default function Products() {
 
   // If no productId in the URL, render the Product Index Page
   return (
-    <div className="pt-[72px] bg-white min-h-[70vh]">
-      <section className="pt-4 pb-16 bg-white">
+    <div className="bg-white min-h-[70vh]">
+      <section className="pt-8 pb-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
+          <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-5">
             Services
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-10">
+          <div className="flex flex-col lg:flex-row lg:items-baseline lg:justify-between gap-3 lg:gap-8 mb-8">
             <h1 className="text-4xl md:text-5xl font-bold leading-[1.12] text-dark font-display tracking-tight">
               What we run in each market
             </h1>
-            <p className="text-sm text-gray-400 leading-relaxed max-w-xs shrink-0 lg:text-right">
+            <p className="text-sm text-gray-400 leading-relaxed shrink-0 lg:text-right lg:whitespace-nowrap">
               Same hardware and cloud stack, configured per buyer.
             </p>
           </div>

@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full overflow-hidden">
       {/* --- HERO SECTION --- */}
-      <section className="w-full relative pt-4 md:pt-6 pb-20 bg-white border-b border-gray-100">
+      <section className="w-full relative py-10 bg-white border-b border-gray-100 lg:min-h-[calc(100vh-6rem)] lg:flex lg:items-center">
         {/* Desktop right-side background graphic */}
         <div className="absolute right-0 top-0 bottom-0 w-[50%] hidden lg:block pointer-events-none z-0">
           <img 
@@ -177,23 +177,16 @@ export default function Home() {
             </div>
 
             {/* Merged 03–04 card */}
-            <div className="bg-white border border-gray-200 border-t-2 border-t-primary flex flex-col">
-              <div className="px-6 pt-9 pb-6">
-                <div className="flex items-baseline justify-between gap-4 mb-4">
-                  <span className="text-[11px] text-primary font-semibold">03 &amp; 04</span>
-                  <span className="text-[10px] tracking-[0.14em] uppercase text-gray-400 font-medium">
-                    Where the work happens
-                  </span>
-                </div>
-                <h3 className="font-bold text-xl md:text-2xl text-dark leading-tight">
-                  Cloud Platform + Analytics Engine
-                </h3>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 border-t border-gray-100 divide-x divide-gray-100 mt-auto">
-                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">Central data hub</div>
-                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">Predictive overflow alerts</div>
-                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">Dynamic route optimisation</div>
-                <div className="px-4 py-5 text-sm text-dark-secondary leading-snug">ESG &amp; compliance reports</div>
+            <div className="flex flex-col lg:pt-10 lg:px-8">
+              <div className="text-[11px] text-primary-hover font-semibold mb-3">03 &amp; 04</div>
+              <h3 className="font-bold text-base text-dark mb-4 leading-tight">
+                Cloud Platform + Analytics Engine
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-2">
+                <span className="text-sm text-gray-500 leading-relaxed">Central data hub</span>
+                <span className="text-sm text-gray-500 leading-relaxed">Predictive overflow alerts</span>
+                <span className="text-sm text-gray-500 leading-relaxed">Dynamic route optimisation</span>
+                <span className="text-sm text-gray-500 leading-relaxed">ESG &amp; compliance reports</span>
               </div>
             </div>
 
@@ -378,7 +371,7 @@ export default function Home() {
       </section>
 
       {/* --- PRODUCTS: three bins, three markets --- */}
-      <section className="w-full bg-[#f8f9fa] py-20 border-b border-gray-100 relative overflow-hidden">
+      <section className="w-full bg-[#f8f9fa] py-14 border-b border-gray-100 relative overflow-hidden">
         {/* Background company logo watermark - showing only the bottom portion at the top left */}
         <div 
           className="absolute left-[-80px] top-[-220px] w-[500px] h-[500px] pointer-events-none z-0"
@@ -391,7 +384,7 @@ export default function Home() {
           }}
         />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
             <div>
               <SectionMarker label="Products" />
               <h2 className="text-4xl md:text-5xl font-bold leading-[1.12] text-dark font-display tracking-tight">
@@ -403,7 +396,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="border-t border-gray-200 pt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               {
                 id: 'residential',
@@ -431,19 +424,19 @@ export default function Home() {
               },
             ].map((p) => (
               <div key={p.id} className="bg-white border border-gray-200 flex flex-col">
-                <div className="bg-white w-full p-0 flex items-center justify-center">
+                <div className="bg-white w-full h-[160px] flex items-center justify-center p-3">
                   <img
                     src={p.img}
                     alt={`XelCo ${p.name}`}
-                    className="w-full h-auto object-contain"
+                    className="max-h-full w-auto object-contain"
                   />
                 </div>
-                <div className="p-6 bg-[#009688] flex flex-col flex-1 text-white">
-                  <div className="text-[10px] tracking-[0.14em] uppercase text-white/70 font-semibold mb-3">
+                <div className="p-5 bg-[#009688] flex flex-col flex-1 text-white">
+                  <div className="text-[10px] tracking-[0.14em] uppercase text-white/70 font-semibold mb-2">
                     {p.tag}
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3 font-display tracking-tight">{p.name}</h3>
-                  <p className="text-sm text-white/85 leading-relaxed mb-6">{p.desc}</p>
+                  <h3 className="text-lg font-bold text-white mb-2 font-display tracking-tight">{p.name}</h3>
+                  <p className="text-sm text-white/85 leading-relaxed mb-4">{p.desc}</p>
                   <button
                     onClick={() => navigate(`/products/${p.id}`)}
                     className="text-sm font-semibold flex items-center gap-1.5 mt-auto self-start border-b border-white/30 pb-0.5 hover:border-white transition-colors cursor-pointer"

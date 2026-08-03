@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Privacy() {
   return (
-    <div className="bg-light min-h-screen py-16">
+    <div className="bg-light min-h-screen pt-8 pb-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-border">
         <h1 className="text-4xl font-bold mb-4">Privacy Policy</h1>
         <p className="text-dark-secondary mb-8">Last Updated: June 1, 2026<br/>Estimated Reading Time: 5 minutes</p>

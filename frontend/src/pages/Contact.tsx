@@ -63,7 +63,7 @@ export default function Contact() {
   const spec = specByProduct[form.product] ?? specByProduct.general;
 
   return (
-    <div className="bg-[#F8F9FA] min-h-screen py-16 lg:py-20">
+    <div className="bg-[#F8F9FA] min-h-screen pt-8 pb-16 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
 

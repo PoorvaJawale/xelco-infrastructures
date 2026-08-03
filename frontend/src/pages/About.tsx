@@ -24,7 +24,7 @@ export default function About() {
   return (
     <div className="flex flex-col">
       {/* --- HERO --- */}
-      <section className="w-full bg-white pt-16 pb-14 border-b border-gray-100">
+      <section className="w-full bg-white pt-8 pb-14 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
             About XelCo
