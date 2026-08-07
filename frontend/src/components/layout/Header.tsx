@@ -34,8 +34,10 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-white border-b border-border ${
-          isScrolled ? 'py-4 shadow-sm' : 'py-5'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 backdrop-blur-xl border-b ${
+          isScrolled
+            ? 'py-4 bg-white/80 border-gray-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
+            : 'py-5 bg-white/60 border-white/30'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

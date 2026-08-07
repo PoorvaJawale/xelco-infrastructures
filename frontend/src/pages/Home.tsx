@@ -22,9 +22,9 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full overflow-hidden">
       {/* --- HERO SECTION --- */}
-      <section className="w-full relative py-10 bg-white border-b border-gray-100 lg:min-h-[calc(100vh-6rem)] lg:flex lg:items-center">
+      <section className="w-full relative bg-white border-b border-gray-100 lg:h-screen lg:flex lg:items-center py-10 lg:pb-72">
         {/* Desktop right-side background graphic */}
-        <div className="absolute right-0 top-0 bottom-0 w-[62%] hidden lg:block pointer-events-none z-0">
+        <div className="absolute right-0 top-0 bottom-0 w-[70%] hidden lg:block pointer-events-none z-0">
           <img 
             src="/hero-image.png" 
             alt="XelCo Intelligent Waste Management Network" 
@@ -126,17 +126,13 @@ export default function Home() {
 
       {/* --- PLATFORM PIPELINE SECTION --- */}
       <section className="w-full bg-[#F8F9FA] py-20 border-b border-gray-100 relative overflow-hidden">
-        {/* Background company logo watermark - showing only the top portion */}
+        {/* Background company logo watermark - full logo anchored to bottom-right */}
         <div 
-          className="absolute right-[-80px] bottom-[-220px] w-[500px] h-[500px] pointer-events-none z-0"
-          style={{
-            backgroundImage: 'url(/company-logo.png)',
-            backgroundSize: 'contain',
-            backgroundPosition: 'top left',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.05,
-          }}
-        />
+          className="absolute right-[-40px] bottom-0 w-[500px] h-[500px] pointer-events-none z-0 flex items-end"
+          style={{ opacity: 0.05 }}
+        >
+          <img src="/company-logo.png" alt="" className="w-full h-auto" />
+        </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionMarker label="The Platform" />
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
@@ -372,17 +368,13 @@ export default function Home() {
 
       {/* --- PRODUCTS: three bins, three markets --- */}
       <section className="w-full bg-[#f8f9fa] py-14 border-b border-gray-100 relative overflow-hidden">
-        {/* Background company logo watermark - showing only the bottom portion at the top left */}
+        {/* Background company logo watermark - full logo anchored to top-left */}
         <div 
-          className="absolute left-[-80px] top-[-220px] w-[500px] h-[500px] pointer-events-none z-0"
-          style={{
-            backgroundImage: 'url(/company-logo.png)',
-            backgroundSize: 'contain',
-            backgroundPosition: 'bottom right',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.05,
-          }}
-        />
+          className="absolute left-[-40px] top-0 w-[500px] h-[500px] pointer-events-none z-0 flex items-start"
+          style={{ opacity: 0.05 }}
+        >
+          <img src="/company-logo.png" alt="" className="w-full h-auto" />
+        </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
             <div>
