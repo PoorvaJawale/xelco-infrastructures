@@ -24,7 +24,7 @@ export default function Home() {
       {/* --- HERO SECTION --- */}
       <section className="w-full relative py-10 bg-white border-b border-gray-100 lg:min-h-[calc(100vh-6rem)] lg:flex lg:items-center">
         {/* Desktop right-side background graphic */}
-        <div className="absolute right-0 top-0 bottom-0 w-[50%] hidden lg:block pointer-events-none z-0">
+        <div className="absolute right-0 top-0 bottom-0 w-[62%] hidden lg:block pointer-events-none z-0">
           <img 
             src="/hero-image.png" 
             alt="XelCo Intelligent Waste Management Network" 
@@ -61,7 +61,7 @@ export default function Home() {
               <img 
                 src="/hero-image.png" 
                 alt="XelCo Intelligent Waste Management Network" 
-                className="w-full h-auto max-h-[380px] object-contain" 
+                className="w-full h-auto max-h-[460px] object-contain" 
               />
             </div>
           </div>
