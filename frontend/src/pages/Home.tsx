@@ -22,9 +22,9 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full overflow-hidden">
       {/* --- HERO SECTION --- */}
-      <section className="w-full relative bg-white border-b border-gray-100 lg:h-screen lg:flex lg:items-center py-10 lg:pb-72">
+      <section className="w-full relative py-10 bg-white border-b border-gray-100 lg:min-h-[calc(100vh-6rem)] lg:flex lg:items-center">
         {/* Desktop right-side background graphic */}
-        <div className="absolute right-0 top-0 bottom-0 w-[70%] hidden lg:block pointer-events-none z-0">
+        <div className="absolute right-0 top-0 bottom-0 w-[44%] 2xl:w-[45%] hidden lg:block pointer-events-none z-0">
           <img 
             src="/hero-image.png" 
             alt="XelCo Intelligent Waste Management Network" 
