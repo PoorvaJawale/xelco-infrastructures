@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/lib/AuthContext';
 
+// ─── ADMIN DASHBOARD (OPTION 1a) ───────────────────────────
 interface ZoneScore {
   name: string;
   score: number;
@@ -62,34 +64,15 @@ const complaintTabs: ComplaintTabConfig[] = [
   },
 ];
 
-export default function Dashboard() {
+function AdminDashboardView({ onShowToast }: { onShowToast: (msg: string) => void }) {
   const navigate = useNavigate();
   const [selectedComplaintTab, setSelectedComplaintTab] = useState<ComplaintTabKey>('NEW');
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const currentComplaintData =
     complaintTabs.find((t) => t.key === selectedComplaintTab) || complaintTabs[0];
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3500);
-  };
-
   return (
     <div className="p-6 sm:p-8 lg:p-[32px_40px_48px] bg-white min-w-0 max-w-[1400px]">
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#1A1D1F] text-white px-4 py-3 rounded-[2px] shadow-lg flex items-center gap-3 font-['Inter'] text-[13px] border-l-4 border-[#009688] animate-in fade-in slide-in-from-bottom-2">
-          <span>{toastMessage}</span>
-          <button
-            onClick={() => setToastMessage(null)}
-            className="text-gray-400 hover:text-white text-xs cursor-pointer ml-2"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
       {/* Header Tag */}
       <p className="font-['Inter'] font-semibold text-[11px] leading-none tracking-[0.16em] uppercase text-[#00796B] m-0 mb-[20px]">
         Executive overview
@@ -107,7 +90,7 @@ export default function Dashboard() {
 
       {/* 2-Column Split: 7fr / 5fr */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* LEFT COLUMN (7 cols in 12-col grid = ~58.3%) */}
+        {/* LEFT COLUMN (7 cols = ~58.3%) */}
         <div className="lg:col-span-7 flex flex-col">
           {/* Section: Overall City Collection Score */}
           <div className="border-t-2 border-[#1A1D1F] pt-[20px]">
@@ -184,7 +167,7 @@ export default function Dashboard() {
             <div className="sm:ml-auto w-full sm:w-auto mt-2 sm:mt-0">
               <button
                 type="button"
-                onClick={() => showToast('Optimising collection routes for 14 overflowing bins...')}
+                onClick={() => onShowToast('Optimising collection routes for 14 overflowing bins...')}
                 className="w-full sm:w-auto bg-[#009688] hover:bg-[#00796B] text-white border-none p-[13px_20px] font-['Inter'] font-semibold text-[12px] leading-none tracking-[0.02em] cursor-pointer whitespace-nowrap transition-colors"
               >
                 Dispatch routes
@@ -315,7 +298,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN (5 cols in 12-col grid = ~41.7%) */}
+        {/* RIGHT COLUMN (5 cols = ~41.7%) */}
         <div className="lg:col-span-5 flex flex-col">
           {/* Section: Open alerts */}
           <div className="border-t-2 border-[#1A1D1F] pt-[20px]">
@@ -344,7 +327,7 @@ export default function Dashboard() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => showToast('Escalated alert DB214 to Vasai-Virar Fire Services')}
+                  onClick={() => onShowToast('Escalated alert DB214 to Vasai-Virar Fire Services')}
                   className="font-['Inter'] font-normal text-[12px] leading-none text-[#00796B] hover:underline mt-2 p-0 bg-transparent border-none cursor-pointer block"
                 >
                   Escalate to fire services →
@@ -366,7 +349,7 @@ export default function Dashboard() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => showToast('DB077 added to Route R-1153 dispatch queue')}
+                  onClick={() => onShowToast('DB077 added to Route R-1153 dispatch queue')}
                   className="font-['Inter'] font-normal text-[12px] leading-none text-[#00796B] hover:underline mt-2 p-0 bg-transparent border-none cursor-pointer block"
                 >
                   Add to next route →
@@ -388,7 +371,7 @@ export default function Dashboard() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => showToast('Contacting driver Sunil Pawar (+91 98201 44321)...')}
+                  onClick={() => onShowToast('Contacting driver Sunil Pawar (+91 98201 44321)...')}
                   className="font-['Inter'] font-normal text-[12px] leading-none text-[#00796B] hover:underline mt-2 p-0 bg-transparent border-none cursor-pointer block"
                 >
                   Contact driver →
@@ -510,5 +493,489 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+// ─── CONTRACTOR DASHBOARD (OPTION 1b) ─────────────────────
+function ContractorDashboardView({ onShowToast }: { onShowToast: (msg: string) => void }) {
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex-1 min-w-0 bg-white">
+      {/* 1. Score Band Across Top */}
+      <div className="bg-[#009688] p-6 sm:p-8 lg:p-[34px_40px] flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-[48px]">
+        {/* Overall Collection Score */}
+        <div className="border-l-[3px] border-white/50 pl-[22px] shrink-0">
+          <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.14em] uppercase text-white/75 m-0 mb-[10px]">
+            Overall city collection score
+          </p>
+          <div className="flex items-baseline gap-3">
+            <span className="font-['Inter'] font-bold text-[56px] sm:text-[68px] leading-[0.85] tracking-[-0.04em] text-white">
+              82
+            </span>
+            <span className="font-['Inter'] font-medium text-[16px] leading-none text-white/70 pb-[6px]">
+              / 100
+            </span>
+          </div>
+          <p className="font-['Inter'] font-medium text-[12px] leading-none text-white/85 mt-[12px] mb-0">
+            ▲ 4 pts vs last week · best Virar West 86 · lowest Nallasopara East 71
+          </p>
+        </div>
+
+        {/* Vertical Divider */}
+        <div className="hidden lg:block w-[1px] self-stretch bg-white/28 shrink-0"></div>
+
+        {/* 4 Metric Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-[44px] flex-1">
+          <div>
+            <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-white/70 m-0 mb-[10px]">
+              Requiring collection
+            </p>
+            <span className="font-['Inter'] font-bold text-[28px] sm:text-[34px] leading-none text-white">
+              68
+            </span>
+          </div>
+          <div>
+            <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-white/70 m-0 mb-[10px]">
+              Overflowing
+            </p>
+            <span className="font-['Inter'] font-bold text-[28px] sm:text-[34px] leading-none text-white">
+              14
+            </span>
+          </div>
+          <div>
+            <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-white/70 m-0 mb-[10px]">
+              Verified today
+            </p>
+            <span className="font-['Inter'] font-bold text-[28px] sm:text-[34px] leading-none text-white">
+              73%
+            </span>
+          </div>
+          <div>
+            <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-white/70 m-0 mb-[10px]">
+              Open alerts
+            </p>
+            <span className="font-['Inter'] font-bold text-[28px] sm:text-[34px] leading-none text-white">
+              27
+            </span>
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="shrink-0">
+          <button
+            type="button"
+            onClick={() => onShowToast('Contractor route dispatch running across assigned zones...')}
+            className="w-full sm:w-auto bg-white hover:bg-gray-100 text-[#00796B] border-none p-[14px_22px] font-['Inter'] font-bold text-[12px] leading-none cursor-pointer whitespace-nowrap transition-colors"
+          >
+            Dispatch routes
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Main Content Area Below the Band */}
+      <div className="p-6 sm:p-8 lg:p-[34px_40px_48px] max-w-[1400px]">
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-3 sm:gap-6 mb-[34px]">
+          <div>
+            <p className="font-['Inter'] font-semibold text-[11px] leading-none tracking-[0.16em] uppercase text-[#00796B] m-0 mb-[14px]">
+              Executive overview
+            </p>
+            <h1 className="font-['Poppins'] font-bold text-[30px] sm:text-[34px] leading-[1.05] tracking-[-0.025em] text-[#1A1D1F] m-0">
+              Vasai-Virar city operations
+            </h1>
+          </div>
+          <span className="font-['Inter'] font-normal text-[12px] leading-none text-[#9CA3AF] whitespace-nowrap">
+            Live · 30 Aug 2026, 14:20 IST
+          </span>
+        </div>
+
+        {/* 2-Column Split: 7fr / 5fr */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          {/* LEFT COLUMN (7 cols = ~58.3%) */}
+          <div className="lg:col-span-7 flex flex-col">
+            {/* 3x2 KPI Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 border-t-2 border-[#1A1D1F]">
+              {/* Row 1 */}
+              <div className="py-5 sm:pr-5 border-b border-[#E5E7EB]">
+                <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-[#9CA3AF] m-0 mb-[10px]">
+                  Total smart bins
+                </p>
+                <span className="font-['Inter'] font-bold text-[28px] sm:text-[32px] leading-none text-[#1A1D1F]">
+                  452
+                </span>
+              </div>
+              <div className="py-5 sm:px-5 border-b border-[#E5E7EB] sm:border-l sm:border-[#E5E7EB]">
+                <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-[#9CA3AF] m-0 mb-[10px]">
+                  Collection vehicles
+                </p>
+                <span className="font-['Inter'] font-bold text-[28px] sm:text-[32px] leading-none text-[#1A1D1F]">
+                  54
+                </span>
+              </div>
+              <div className="py-5 sm:px-5 border-b border-[#E5E7EB] sm:border-l sm:border-[#E5E7EB]">
+                <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-[#9CA3AF] m-0 mb-[10px]">
+                  Waste collected
+                </p>
+                <span className="font-['Inter'] font-bold text-[28px] sm:text-[32px] leading-none text-[#1A1D1F]">
+                  214.6
+                  <span className="font-['Inter'] font-normal text-[12px] text-[#9CA3AF]">
+                    {' '}
+                    t
+                  </span>
+                </span>
+              </div>
+
+              {/* Row 2 */}
+              <div className="py-5 sm:pr-5 border-b border-[#E5E7EB]">
+                <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-[#9CA3AF] m-0 mb-[10px]">
+                  Active routes
+                </p>
+                <span className="font-['Inter'] font-bold text-[28px] sm:text-[32px] leading-none text-[#1A1D1F]">
+                  19
+                </span>
+              </div>
+              <div className="py-5 sm:px-5 border-b border-[#E5E7EB] sm:border-l sm:border-[#E5E7EB]">
+                <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-[#9CA3AF] m-0 mb-[10px]">
+                  Workers on shift
+                </p>
+                <span className="font-['Inter'] font-bold text-[28px] sm:text-[32px] leading-none text-[#1A1D1F]">
+                  148
+                </span>
+              </div>
+              <div className="py-5 sm:px-5 border-b border-[#E5E7EB] sm:border-l sm:border-[#E5E7EB]">
+                <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-[#9CA3AF] m-0 mb-[10px]">
+                  Critical bins
+                </p>
+                <span className="font-['Inter'] font-bold text-[28px] sm:text-[32px] leading-none text-[#009688]">
+                  14
+                </span>
+              </div>
+            </div>
+
+            {/* Fill Level Distribution */}
+            <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF] mt-[40px] mb-0">
+              Fill level distribution · 452 bins
+            </p>
+            <div className="border-t-2 border-[#1A1D1F] mt-[10px] pt-[20px]">
+              {/* Stacked bar */}
+              <div className="flex h-[34px] mb-[14px]">
+                <div
+                  style={{ width: '63.7%' }}
+                  className="bg-[#009688] h-full"
+                  title="Normal <40%: 288 bins (63.7%)"
+                />
+                <div
+                  style={{ width: '21.2%' }}
+                  className="bg-[#14B8A6] h-full"
+                  title="Near-full 40–80%: 96 bins (21.2%)"
+                />
+                <div
+                  style={{ width: '15.1%' }}
+                  className="bg-[#D97706] h-full"
+                  title="Full >80%: 68 bins (15.1%)"
+                />
+              </div>
+
+              {/* Legend */}
+              <div className="flex flex-wrap items-center gap-5 sm:gap-[28px]">
+                <span className="font-['Inter'] font-normal text-[12px] leading-none text-[#2D3139] flex items-center">
+                  <span className="inline-block w-[9px] h-[9px] bg-[#009688] mr-[7px] shrink-0"></span>
+                  Normal &lt;40% · <b className="text-[#1A1D1F] font-bold ml-1">288</b>
+                </span>
+                <span className="font-['Inter'] font-normal text-[12px] leading-none text-[#2D3139] flex items-center">
+                  <span className="inline-block w-[9px] h-[9px] bg-[#14B8A6] mr-[7px] shrink-0"></span>
+                  Near-full 40–80% · <b className="text-[#1A1D1F] font-bold ml-1">96</b>
+                </span>
+                <span className="font-['Inter'] font-normal text-[12px] leading-none text-[#2D3139] flex items-center">
+                  <span className="inline-block w-[9px] h-[9px] bg-[#D97706] mr-[7px] shrink-0"></span>
+                  Full &gt;80% · <b className="text-[#1A1D1F] font-bold ml-1">68</b>
+                </span>
+              </div>
+            </div>
+
+            {/* Zone Performance Table */}
+            <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF] mt-[40px] mb-0">
+              Zone performance
+            </p>
+            <div className="mt-[10px] overflow-x-auto">
+              <div className="min-w-[480px]">
+                <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr_0.7fr_1fr] pb-[9px] border-b-2 border-[#1A1D1F]">
+                  <span className="font-['Inter'] font-semibold text-[10px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF]">
+                    Zone
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[10px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF] text-right">
+                    Bins
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[10px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF] text-right">
+                    Critical
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[10px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF] text-right">
+                    Trucks
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[10px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF] text-right">
+                    Verified
+                  </span>
+                </div>
+
+                {/* Virar West */}
+                <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr_0.7fr_1fr] py-[14px] border-b border-[#E5E7EB]">
+                  <span className="font-['Inter'] font-bold text-[15px] leading-none text-[#1A1D1F]">
+                    Virar West
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    450
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    28
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    12
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[15px] leading-none text-[#1A1D1F] text-right">
+                    86%
+                  </span>
+                </div>
+
+                {/* Vasai West */}
+                <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr_0.7fr_1fr] py-[14px] border-b border-[#E5E7EB]">
+                  <span className="font-['Inter'] font-bold text-[15px] leading-none text-[#1A1D1F]">
+                    Vasai West
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    88
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    9
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    9
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[15px] leading-none text-[#1A1D1F] text-right">
+                    84%
+                  </span>
+                </div>
+
+                {/* Virar East */}
+                <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr_0.7fr_1fr] py-[14px] border-b border-[#E5E7EB]">
+                  <span className="font-['Inter'] font-bold text-[15px] leading-none text-[#1A1D1F]">
+                    Virar East
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    74
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    11
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    8
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[15px] leading-none text-[#1A1D1F] text-right">
+                    81%
+                  </span>
+                </div>
+
+                {/* Nallasopara East (Active highlight) */}
+                <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr_0.7fr_1fr] py-[14px] px-2 -mx-2 border-b border-[#E5E7EB] bg-[rgba(0,150,136,0.05)]">
+                  <span className="font-['Inter'] font-bold text-[15px] leading-none text-[#1A1D1F]">
+                    Nallasopara East
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    71
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[15px] leading-none text-[#009688] text-right">
+                    19
+                  </span>
+                  <span className="font-['Inter'] font-normal text-[15px] leading-none text-[#2D3139] text-right">
+                    7
+                  </span>
+                  <span className="font-['Inter'] font-semibold text-[15px] leading-none text-[#1A1D1F] text-right">
+                    71%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN (5 cols = ~41.7%) */}
+          <div className="lg:col-span-5 flex flex-col">
+            {/* Section: Open alerts */}
+            <div className="border-t-2 border-[#1A1D1F] pt-[20px]">
+              <div className="flex justify-between items-baseline mb-[18px]">
+                <h2 className="font-['Poppins'] font-bold text-[20px] leading-[1.2] tracking-[-0.02em] text-[#1A1D1F] m-0">
+                  Open alerts
+                </h2>
+                <span className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] text-[#9CA3AF]">
+                  27 UNRESOLVED
+                </span>
+              </div>
+
+              <div className="flex flex-col">
+                {/* Alert 1 */}
+                <div className="border-l-[3px] border-[#DC2626] p-[12px_0_12px_16px] border-b border-[#E5E7EB]">
+                  <div className="flex justify-between items-baseline gap-3">
+                    <span className="font-['Inter'] font-bold text-[12px] leading-none tracking-[0.06em] uppercase text-[#DC2626]">
+                      Critical · fire detected
+                    </span>
+                    <span className="font-['Inter'] font-normal text-[11px] leading-none text-[#9CA3AF]">
+                      2 min
+                    </span>
+                  </div>
+                  <p className="font-['Inter'] font-normal text-[14px] leading-[1.4] text-[#1A1D1F] m-0 mt-2">
+                    <span className="font-bold">DB214</span> — Manvelpada Road, Virar East
+                  </p>
+                </div>
+
+                {/* Alert 2 */}
+                <div className="border-l-[3px] border-[#DC2626] p-[12px_0_12px_16px] border-b border-[#E5E7EB]">
+                  <div className="flex justify-between items-baseline gap-3">
+                    <span className="font-['Inter'] font-bold text-[12px] leading-none tracking-[0.06em] uppercase text-[#DC2626]">
+                      Critical · overflow
+                    </span>
+                    <span className="font-['Inter'] font-normal text-[11px] leading-none text-[#9CA3AF]">
+                      11 min
+                    </span>
+                  </div>
+                  <p className="font-['Inter'] font-normal text-[14px] leading-[1.4] text-[#1A1D1F] m-0 mt-2">
+                    <span className="font-bold">DB077</span> — Tulinj Road · 104%
+                  </p>
+                </div>
+
+                {/* Alert 3 */}
+                <div className="border-l-[3px] border-[#D97706] p-[12px_0_12px_16px] border-b border-[#E5E7EB]">
+                  <div className="flex justify-between items-baseline gap-3">
+                    <span className="font-['Inter'] font-bold text-[12px] leading-none tracking-[0.06em] uppercase text-[#B45309]">
+                      Warning · above 80%
+                    </span>
+                    <span className="font-['Inter'] font-normal text-[11px] leading-none text-[#9CA3AF]">
+                      26 min
+                    </span>
+                  </div>
+                  <p className="font-['Inter'] font-normal text-[14px] leading-[1.4] text-[#1A1D1F] m-0 mt-2">
+                    17 bins crossed threshold · Vasai East
+                  </p>
+                </div>
+
+                {/* Alert 4 */}
+                <div className="border-l-[3px] border-[#3B82F6] p-[12px_0_12px_16px] border-b border-[#E5E7EB]">
+                  <div className="flex justify-between items-baseline gap-3">
+                    <span className="font-['Inter'] font-bold text-[12px] leading-none tracking-[0.06em] uppercase text-[#3B82F6]">
+                      Info · bin verified
+                    </span>
+                    <span className="font-['Inter'] font-normal text-[11px] leading-none text-[#9CA3AF]">
+                      44 min
+                    </span>
+                  </div>
+                  <p className="font-['Inter'] font-normal text-[14px] leading-[1.4] text-[#1A1D1F] m-0 mt-2">
+                    DB301 emptied — sensor confirmed 4%
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => navigate('/dashboard/alerts')}
+                className="font-['Inter'] font-semibold text-[12px] leading-none text-[#00796B] hover:underline mt-[18px] p-0 bg-transparent border-none cursor-pointer flex items-center gap-1"
+              >
+                All alerts →
+              </button>
+            </div>
+
+            {/* Section: Today's collection */}
+            <div className="border-t-2 border-[#1A1D1F] pt-[20px] mt-[40px]">
+              <h2 className="font-['Poppins'] font-bold text-[20px] leading-[1.2] tracking-[-0.02em] text-[#1A1D1F] m-0 mb-1">
+                Today's collection
+              </h2>
+              <p className="font-['Inter'] font-normal text-[12px] leading-[1.5] text-[#9CA3AF] m-0 mb-[14px]">
+                Verified means the bin sensor confirmed it emptied.
+              </p>
+
+              {/* Ruled Rows */}
+              <div className="flex justify-between items-baseline py-[13px] border-b border-[#E5E7EB]">
+                <span className="font-['Inter'] font-normal text-[14px] leading-none text-[#2D3139]">
+                  Assigned
+                </span>
+                <span className="font-['Inter'] font-bold text-[17px] leading-none text-[#1A1D1F]">
+                  250
+                </span>
+              </div>
+
+              <div className="flex justify-between items-baseline py-[13px] px-2 -mx-2 border-b border-[#E5E7EB] bg-[rgba(0,150,136,0.05)]">
+                <span className="font-['Inter'] font-semibold text-[14px] leading-none text-[#1A1D1F]">
+                  Verified
+                </span>
+                <span className="font-['Inter'] font-bold text-[17px] leading-none text-[#1A1D1F] pr-1">
+                  182
+                </span>
+              </div>
+
+              <div className="flex justify-between items-baseline py-[13px] border-b border-[#E5E7EB]">
+                <span className="font-['Inter'] font-normal text-[14px] leading-none text-[#2D3139]">
+                  Pending
+                </span>
+                <span className="font-['Inter'] font-bold text-[17px] leading-none text-[#1A1D1F]">
+                  52
+                </span>
+              </div>
+
+              <div className="flex justify-between items-baseline py-[13px] border-b border-[#E5E7EB]">
+                <span className="font-['Inter'] font-normal text-[14px] leading-none text-[#2D3139]">
+                  Skipped
+                </span>
+                <span className="font-['Inter'] font-bold text-[17px] leading-none text-[#1A1D1F]">
+                  11
+                </span>
+              </div>
+
+              <div className="flex justify-between items-baseline py-[13px] border-b border-[#E5E7EB]">
+                <span className="font-['Inter'] font-normal text-[14px] leading-none text-[#2D3139]">
+                  Verification failed
+                </span>
+                <span className="font-['Inter'] font-bold text-[17px] leading-none text-[#009688]">
+                  5
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN DASHBOARD EXPORT ────────────────────────────────
+export default function Dashboard() {
+  const { user } = useAuth();
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const isContractor = user?.role === 'Contractor';
+
+  return (
+    <>
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1A1D1F] text-white px-4 py-3 rounded-[2px] shadow-lg flex items-center gap-3 font-['Inter'] text-[13px] border-l-4 border-[#009688] animate-in fade-in slide-in-from-bottom-2">
+          <span>{toastMessage}</span>
+          <button
+            onClick={() => setToastMessage(null)}
+            className="text-gray-400 hover:text-white text-xs cursor-pointer ml-2"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Render 1b for Contractor, 1a for Admin */}
+      {isContractor ? (
+        <ContractorDashboardView onShowToast={showToast} />
+      ) : (
+        <AdminDashboardView onShowToast={showToast} />
+      )}
+    </>
   );
 }

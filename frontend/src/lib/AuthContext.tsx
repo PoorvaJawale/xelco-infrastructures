@@ -24,6 +24,7 @@ interface AuthContextType {
   registerVerify: (email: string, code: string) => Promise<{ success: boolean }>;
   logout: () => void;
   clearError: () => void;
+  switchRole: (role: 'Admin' | 'Contractor' | string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -123,6 +124,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const demoToken = 'mock_admin_token_2026';
       localStorage.setItem('xelco_auth_token', demoToken);
       localStorage.setItem('xelco_demo_user', JSON.stringify(demoUser));
+      localStorage.setItem('xelco_user_role', 'Admin');
       setToken(demoToken);
       setUser(demoUser);
       return { success: true };
@@ -142,6 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const demoToken = 'mock_contractor_token_2026';
       localStorage.setItem('xelco_auth_token', demoToken);
       localStorage.setItem('xelco_demo_user', JSON.stringify(demoUser));
+      localStorage.setItem('xelco_user_role', 'Contractor');
       setToken(demoToken);
       setUser(demoUser);
       return { success: true };
@@ -285,12 +288,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     localStorage.removeItem('xelco_auth_token');
     localStorage.removeItem('xelco_demo_user');
+    localStorage.removeItem('xelco_user_role');
     setToken(null);
     setUser(null);
   };
 
   const clearError = () => {
     setError(null);
+  };
+
+  const switchRole = (newRole: 'Admin' | 'Contractor' | string) => {
+    const isContractor = newRole === 'Contractor';
+    const updatedUser: User = {
+      email: isContractor ? 'ops@greenline.co.in' : 'admin@vvmc.gov.in',
+      name: isContractor ? 'GreenLine Operator' : 'VVMC Administrator',
+      role: newRole,
+    };
+    const updatedToken = isContractor ? 'mock_contractor_token_2026' : 'mock_admin_token_2026';
+    localStorage.setItem('xelco_auth_token', updatedToken);
+    localStorage.setItem('xelco_demo_user', JSON.stringify(updatedUser));
+    setToken(updatedToken);
+    setUser(updatedUser);
   };
 
   return (
@@ -306,6 +324,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         registerVerify,
         logout,
         clearError,
+        switchRole,
       }}
     >
       {children}

@@ -17,8 +17,9 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
     navigate('/login');
   };
 
-  const initial = user?.name ? user.name.charAt(0).toUpperCase() : (user?.role?.charAt(0) || 'A');
-  const roleLabel = user?.role || 'Admin';
+  const storedRole = localStorage.getItem('xelco_user_role');
+  const roleLabel = user?.role || storedRole || 'Admin';
+  const initial = roleLabel === 'Contractor' ? 'C' : 'A';
 
   return (
     <header className="h-[56px] bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4 sm:px-6 shrink-0 sticky top-0 z-30">
@@ -81,16 +82,16 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
             <div className="absolute right-0 mt-2 w-48 bg-white border border-[#E5E7EB] shadow-lg rounded-[2px] py-1 z-50">
               <div className="px-3 py-2 border-b border-[#E5E7EB]">
                 <p className="font-['Inter'] font-semibold text-[12px] text-[#1A1D1F] truncate">
-                  {user?.name || 'Administrator'}
+                  {user?.name || (roleLabel === 'Contractor' ? 'GreenLine Operator' : 'VVMC Administrator')}
                 </p>
                 <p className="font-['Inter'] text-[10px] text-[#9CA3AF] truncate">
-                  {user?.email || 'admin@vvmc.gov.in'}
+                  {user?.email || (roleLabel === 'Contractor' ? 'ops@greenline.co.in' : 'admin@vvmc.gov.in')}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="w-full text-left px-3 py-2 font-['Inter'] text-[12px] text-[#DC2626] hover:bg-red-50 flex items-center gap-2 cursor-pointer transition-colors"
+                className="w-full text-left px-3 py-2 font-['Inter'] text-[12px] text-[#DC2626] hover:bg-red-50 flex items-center gap-2 cursor-pointer transition-colors border-none bg-white"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 Sign out
