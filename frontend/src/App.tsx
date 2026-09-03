@@ -71,14 +71,23 @@ export default function App() {
               }
             >
               <Route index element={<Dashboard />} />
-              <Route path="smartbins" element={<PlaceholderPage title="SmartBins" description="Manage, search, and monitor all SmartBins in the network." icon={<Trash2 className="w-12 h-12" />} />} />
-              <Route path="locations" element={<PlaceholderPage title="Locations" description="Manage buildings, zones, and floors across locations." icon={<MapPin className="w-12 h-12" />} />} />
-              <Route path="collections" element={<PlaceholderPage title="Collections" description="View collection schedules, history, and assigned workers." icon={<Truck className="w-12 h-12" />} />} />
-              <Route path="alerts" element={<PlaceholderPage title="Alerts" description="Track near-full bins, battery alerts, and sensor failures." icon={<Bell className="w-12 h-12" />} />} />
-              <Route path="analytics" element={<PlaceholderPage title="Analytics" description="View reports, trends, and export data." icon={<BarChart3 className="w-12 h-12" />} />} />
-              <Route path="users" element={<PlaceholderPage title="User Management" description="Create, edit, and assign roles to users." icon={<Users className="w-12 h-12" />} />} />
-              <Route path="settings" element={<PlaceholderPage title="Settings" description="Configure organization, notifications, theme, and security." icon={<Settings className="w-12 h-12" />} />} />
-              <Route path="profile" element={<PlaceholderPage title="Profile" description="View and update your profile information." icon={<UserCircle className="w-12 h-12" />} />} />
+              <Route path="live-map" element={<PlaceholderPage title="Live City Map" description="Real-time map of all 452 smart bins and collection vehicles in Vasai-Virar." icon={<MapPin className="w-12 h-12" />} />} />
+              <Route path="smartbins" element={<PlaceholderPage title="Smart Bins" description="Manage, search, and monitor all smart bins across six zones." icon={<Trash2 className="w-12 h-12" />} />} />
+              <Route path="collections" element={<PlaceholderPage title="Waste Collection" description="View collection schedules, history, and assigned workers." icon={<Truck className="w-12 h-12" />} />} />
+              <Route path="routes" element={<PlaceholderPage title="Route Management" description="Generate, re-run, and assign collection routes." icon={<Truck className="w-12 h-12" />} />} />
+              <Route path="fleet" element={<PlaceholderPage title="Fleet Management" description="Monitor collection vehicles, fuel, and telemetry." icon={<Truck className="w-12 h-12" />} />} />
+              <Route path="zones" element={<PlaceholderPage title="Wards & Zones" description="Vasai-Virar municipal wards, zones, and territory boundaries." icon={<MapPin className="w-12 h-12" />} />} />
+              <Route path="contractors" element={<PlaceholderPage title="Contractors" description="Manage collection operators, SLAs, and performance scores." icon={<Users className="w-12 h-12" />} />} />
+              <Route path="drivers" element={<PlaceholderPage title="Drivers" description="Driver rosters, route assignments, and shift activity." icon={<Users className="w-12 h-12" />} />} />
+              <Route path="collectors" element={<PlaceholderPage title="Waste Collectors" description="Ground personnel shifts, attendance, and zone assignments." icon={<Users className="w-12 h-12" />} />} />
+              <Route path="users" element={<PlaceholderPage title="User Management" description="Create, edit, and assign roles to municipal users." icon={<Users className="w-12 h-12" />} />} />
+              <Route path="alerts" element={<PlaceholderPage title="Alerts" description="Critical fire detected, overflow, route deviation, and battery alerts." icon={<Bell className="w-12 h-12" />} />} />
+              <Route path="complaints" element={<PlaceholderPage title="Complaints" description="Citizen grievance tracking, SLA breach monitors, and resolution workflows." icon={<Bell className="w-12 h-12" />} />} />
+              <Route path="analytics" element={<PlaceholderPage title="Analytics" description="Executive trends, collection score history, and waste volume analytics." icon={<BarChart3 className="w-12 h-12" />} />} />
+              <Route path="reports" element={<PlaceholderPage title="Reports" description="Export daily, weekly, and monthly municipal compliance reports." icon={<BarChart3 className="w-12 h-12" />} />} />
+              <Route path="settings" element={<PlaceholderPage title="Settings" description="Configure municipality settings, alert thresholds, and system integration." icon={<Settings className="w-12 h-12" />} />} />
+              <Route path="profile" element={<PlaceholderPage title="Profile" description="View and update your administrator profile." icon={<UserCircle className="w-12 h-12" />} />} />
+              <Route path="*" element={<PlaceholderPage title="Module Coming Soon" description="This module is under construction for the Vasai-Virar Control Center." />} />
             </Route>
 
             {/* Public Pages (with marketing layout) */}

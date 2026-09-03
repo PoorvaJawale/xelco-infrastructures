@@ -1,167 +1,302 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
-import { Mail, Lock, CircuitBoard, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
 
 export default function Login() {
   const navigate = useNavigate();
   const { loginPassword, error: authError, clearError } = useAuth();
 
+  const [role, setRole] = useState<'Admin' | 'Contractor'>('Admin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [keepSignedIn, setKeepSignedIn] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [forgotModalOpen, setForgotModalOpen] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleRoleChange = (newRole: 'Admin' | 'Contractor') => {
+    setRole(newRole);
+    clearError();
+    setErrorMessage(null);
+  };
+
+  const handleSelectDemoUser = (demoRole: 'Admin' | 'Contractor') => {
+    setRole(demoRole);
+    clearError();
+    setErrorMessage(null);
+    if (demoRole === 'Admin') {
+      setEmail('admin@vvmc.gov.in');
+      setPassword('admin');
+    } else {
+      setEmail('ops@greenline.co.in');
+      setPassword('contractor');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
-    setFormErrors({});
+    setErrorMessage(null);
 
-    const errors: Record<string, string> = {};
-    if (!email) {
-      errors.email = 'Official Email is required.';
+    if (!email.trim()) {
+      setErrorMessage('Please enter your work email.');
+      return;
     }
     if (!password) {
-      errors.password = 'Password is required.';
-    }
-
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
+      setErrorMessage('Please enter your password.');
       return;
     }
 
     setLoading(true);
-    const result = await loginPassword(email, password);
+    const result = await loginPassword(email, password, role);
     setLoading(false);
 
     if (result.success) {
       navigate('/dashboard');
+    } else {
+      setErrorMessage(result.error || 'Incorrect password. 4 attempts remaining.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-between">
-      {/* Top Bar with back link */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6 flex justify-between items-center">
-        <button 
-          onClick={() => navigate('/')}
-          className="flex items-center space-x-2 text-dark-secondary hover:text-dark transition-colors cursor-pointer group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-semibold">Home page</span>
-        </button>
-        <img src="/logo.png" alt="XelCo InfraTechnologies" className="h-10 object-contain" />
+    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAFBFC] selection:bg-[#009688]/20 selection:text-[#00796B]">
+      {/* Left Column: Dark Brand Panel */}
+      <div className="w-full lg:w-1/2 bg-[#1A1D1F] p-8 sm:p-12 lg:p-[56px_64px] flex flex-col justify-between shrink-0 min-h-[520px] lg:min-h-screen">
+        {/* Top Logo */}
+        <div>
+          <Link
+            to="/"
+            className="inline-block no-underline group cursor-pointer"
+            title="Return to Home"
+          >
+            <img
+              src="/logo.png"
+              alt="XelCo InfraTechnologies"
+              className="h-10 md:h-12 w-auto object-contain brightness-0 invert"
+            />
+          </Link>
+        </div>
+
+        {/* Center Editorial / Marketing & Demo Info */}
+        <div className="my-10 lg:my-0">
+          <p className="font-['Inter'] font-semibold text-[11px] leading-none tracking-[0.16em] uppercase text-[#14B8A6] m-0 mb-[22px]">
+            Control Center
+          </p>
+
+          <h2 className="font-['Poppins'] font-bold text-[34px] sm:text-[40px] leading-[1.12] tracking-[-0.025em] text-white m-0 mb-[20px] max-w-[440px]">
+            Every bin, every route, one screen.
+          </h2>
+
+          <p className="font-['Inter'] font-normal text-[15px] leading-[1.6] text-white/60 m-0 max-w-[400px]">
+            Vasai-Virar Municipal Corporation · 452 smart bins across six zones.
+          </p>
+
+          {/* Demo access badge & interactive quick credentials */}
+          <div className="border-l-[3px] border-[#009688] pl-[22px] mt-[44px]">
+            <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.12em] uppercase text-white/45 m-0 mb-[10px]">
+              Demo access · no backend connected
+            </p>
+            <div className="font-mono text-[13px] leading-[1.7] text-white/80 space-y-1">
+              <div
+                onClick={() => handleSelectDemoUser('Admin')}
+                className="cursor-pointer hover:text-white transition-colors group flex items-center gap-2"
+                title="Click to fill Admin demo credentials"
+              >
+                <span className="group-hover:underline">admin@vvmc.gov.in · admin</span>
+                <span className="text-[10px] opacity-0 group-hover:opacity-100 text-[#14B8A6] font-sans">
+                  (fill)
+                </span>
+              </div>
+              <div
+                onClick={() => handleSelectDemoUser('Contractor')}
+                className="cursor-pointer hover:text-white transition-colors group flex items-center gap-2"
+                title="Click to fill Contractor demo credentials"
+              >
+                <span className="group-hover:underline">ops@greenline.co.in · contractor</span>
+                <span className="text-[10px] opacity-0 group-hover:opacity-100 text-[#14B8A6] font-sans">
+                  (fill)
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer copyright */}
+        <p className="font-['Inter'] font-normal text-[11px] leading-none text-white/35 m-0">
+          © 2026 XelCo InfraTechnologies Pvt. Ltd.
+        </p>
       </div>
 
-      {/* Main split section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 flex-1 flex items-center justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 w-full items-center">
-          
-          {/* Left Column: Editorial message */}
-          <div className="lg:col-span-5 max-w-xl">
-            <div className="text-[11px] tracking-[0.16em] uppercase text-primary-hover font-semibold mb-6">
-              Access Control
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold leading-[1.12] text-dark font-display tracking-tight mb-6">
-              XIT Terminal Access
-            </h1>
-            <p className="text-[15px] text-dark-secondary leading-relaxed">
-              Official gateway for XelCo operators, dispatch officers, and municipal directors. Authenticate with your organization credentials to access active maps, telemetry data, and ESG reports.
-            </p>
+      {/* Right Column: Sign In Form */}
+      <div className="flex-1 bg-white p-8 sm:p-12 lg:p-[56px_72px] flex flex-col justify-center items-center">
+        <div className="max-w-[440px] w-full">
+          {/* Subtitle */}
+          <p className="font-['Inter'] font-semibold text-[11px] leading-none tracking-[0.16em] uppercase text-[#00796B] m-0 mb-[18px]">
+            Sign in
+          </p>
+
+          {/* Heading */}
+          <h1 className="font-['Poppins'] font-bold text-[30px] sm:text-[34px] leading-[1.1] tracking-[-0.025em] text-[#1A1D1F] m-0 mb-[40px]">
+            Log in to the Control Center
+          </h1>
+
+          {/* Role Segmented Control */}
+          <p className="font-['Inter'] font-bold text-[10px] leading-none tracking-[0.1em] uppercase text-[#9CA3AF] m-0 mb-[10px]">
+            I am signing in as
+          </p>
+
+          <div className="flex border border-[#1A1D1F] mb-[12px]">
+            <button
+              type="button"
+              onClick={() => handleRoleChange('Admin')}
+              className={`flex-1 border-none py-[15px] font-['Inter'] text-[13px] leading-none transition-colors cursor-pointer ${
+                role === 'Admin'
+                  ? 'bg-[#009688] text-white font-bold border-r border-[#1A1D1F]'
+                  : 'bg-white text-[#2D3139] font-medium border-r border-[#1A1D1F] hover:bg-gray-50'
+              }`}
+            >
+              Admin
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleRoleChange('Contractor')}
+              className={`flex-1 border-none py-[15px] font-['Inter'] text-[13px] leading-none transition-colors cursor-pointer ${
+                role === 'Contractor'
+                  ? 'bg-[#009688] text-white font-bold'
+                  : 'bg-white text-[#2D3139] font-medium hover:bg-gray-50'
+              }`}
+            >
+              Contractor
+            </button>
           </div>
 
-          {/* Right Column: Clean borderless Form */}
-          <div className="lg:col-span-7 bg-slate-50 p-8 md:p-12 border border-gray-200">
-            <div className="max-w-md mx-auto">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-dark font-display tracking-tight">Operator Login</h2>
-                <p className="text-xs text-gray-400 mt-1">Authenticate to access the XIT terminal</p>
-              </div>
+          {/* Role Helper Description */}
+          <p className="font-['Inter'] font-normal text-[12px] leading-[1.5] text-[#9CA3AF] m-0 mb-[32px]">
+            {role === 'Admin'
+              ? 'Municipal corporation account — full oversight across all six zones.'
+              : 'Collection operator account — analytics and route optimisation for assigned contract.'}
+          </p>
 
-              {/* Validation & Auth Errors */}
-              {(authError || formErrors.general) && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-500 rounded-none text-xs leading-normal flex items-start space-x-2">
-                  <svg className="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  <span>{authError || formErrors.general}</span>
-                </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit} noValidate>
+            {/* Work Email */}
+            <div className="mb-[22px]">
+              <label className="block font-['Inter'] font-semibold text-[12px] leading-none text-[#2D3139] mb-[8px]">
+                Work email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrorMessage(null);
+                }}
+                className="w-full box-border border border-[#E5E7EB] p-[13px_14px] font-['Inter'] font-normal text-[15px] leading-none text-[#1A1D1F] rounded-[2px] bg-white outline-none focus:border-[#009688] transition-colors"
+                placeholder={role === 'Admin' ? 'admin@vvmc.gov.in' : 'ops@greenline.co.in'}
+                autoComplete="email"
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div className="mb-[10px]">
+              <label className="block font-['Inter'] font-semibold text-[12px] leading-none text-[#2D3139] mb-[8px]">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErrorMessage(null);
+                }}
+                className={`w-full box-border border p-[13px_14px] font-['Inter'] font-normal text-[15px] leading-none text-[#1A1D1F] rounded-[2px] bg-white outline-none transition-colors ${
+                  errorMessage || authError
+                    ? 'border-[#DC2626] focus:border-[#DC2626]'
+                    : 'border-[#E5E7EB] focus:border-[#009688]'
+                }`}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                required
+              />
+              {(errorMessage || authError) && (
+                <p className="font-['Inter'] font-normal text-[12px] leading-none text-[#DC2626] m-[8px_0_0]">
+                  {errorMessage || authError}
+                </p>
               )}
-
-              <form onSubmit={handleLogin} className="space-y-6">
-                {/* Official Email */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-600 block">Official Email</label>
-                  <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input
-                      type="email"
-                      placeholder="operator@xelco.in"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className={`flex h-11 w-full rounded-none border bg-white px-10 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all ${
-                        formErrors.email ? 'border-red-400' : 'border-slate-200'
-                      }`}
-                      required
-                    />
-                  </div>
-                  {formErrors.email && <span className="text-xs text-red-500">{formErrors.email}</span>}
-                </div>
-
-                {/* Password */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-600 block">Password</label>
-                  <div className="relative">
-                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input
-                      type="password"
-                      placeholder="••••••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className={`flex h-11 w-full rounded-none border bg-white px-10 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all ${
-                        formErrors.password ? 'border-red-400' : 'border-slate-200'
-                      }`}
-                      required
-                    />
-                  </div>
-                  {formErrors.password && <span className="text-xs text-red-500">{formErrors.password}</span>}
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full justify-center bg-primary hover:bg-primary-hover text-white rounded-none h-11 text-xs font-semibold cursor-pointer duration-200 transition-colors"
-                  isLoading={loading}
-                  disabled={loading}
-                >
-                  Secure Login
-                </Button>
-              </form>
-
-              {/* Registration Link */}
-              <div className="text-center mt-6">
-                <button
-                  onClick={() => navigate('/register')}
-                  className="text-xs font-semibold text-primary-hover hover:underline cursor-pointer"
-                >
-                  Need access credentials? Request Provisioning
-                </button>
-              </div>
             </div>
-          </div>
-        </div>
-      </main>
 
-      {/* Footer copyright */}
-      <footer className="w-full bg-slate-50 border-t border-gray-100 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-[10px] text-slate-400 gap-3">
-          <p>© 2026 XelCo InfraTechnologies Pvt. Ltd. (XIT). All rights reserved.</p>
-          <p className="flex items-center space-x-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 inline-block"></span>
-            <span>Secure Access Gateway</span>
+            {/* Remember Me & Forgot Password */}
+            <div className="flex justify-between items-center m-[24px_0_28px]">
+              <label className="flex items-center gap-[9px] font-['Inter'] font-normal text-[13px] leading-none text-[#2D3139] cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={keepSignedIn}
+                  onChange={(e) => setKeepSignedIn(e.target.checked)}
+                  className="w-[15px] h-[15px] accent-[#009688] cursor-pointer"
+                />
+                Keep me signed in
+              </label>
+              <button
+                type="button"
+                onClick={() => setForgotModalOpen(true)}
+                className="font-['Inter'] font-semibold text-[13px] leading-none text-[#00796B] hover:underline cursor-pointer bg-transparent border-none p-0"
+              >
+                Forgot password?
+              </button>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#009688] hover:bg-[#00796B] active:bg-[#00695c] text-white border-none p-[17px_0] font-['Inter'] font-bold text-[14px] leading-none cursor-pointer transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Authenticating...' : `Log in as ${role}`}
+            </button>
+          </form>
+
+          {/* Request Access Link */}
+          <p className="font-['Inter'] font-normal text-[13px] leading-none text-[#2D3139] m-[26px_0_0] pt-[26px] border-t border-[#E5E7EB]">
+            No account yet?{' '}
+            <button
+              type="button"
+              onClick={() => navigate('/register')}
+              className="font-semibold text-[#00796B] hover:underline cursor-pointer bg-transparent border-none p-0"
+            >
+              Request access
+            </button>
           </p>
         </div>
-      </footer>
+      </div>
+
+      {/* Forgot Password Modal */}
+      {forgotModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-white max-w-md w-full p-6 shadow-xl border border-gray-200">
+            <h3 className="font-['Poppins'] font-bold text-lg text-[#1A1D1F] mb-2">
+              Password Recovery
+            </h3>
+            <p className="font-['Inter'] text-sm text-[#2D3139] mb-4 leading-relaxed">
+              For demo accounts, use credentials listed on the brand panel:
+            </p>
+            <div className="bg-gray-50 p-3 font-mono text-xs text-gray-700 mb-5 border border-gray-200 space-y-1">
+              <p>Admin: admin@vvmc.gov.in / admin</p>
+              <p>Contractor: ops@greenline.co.in / contractor</p>
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setForgotModalOpen(false)}
+                className="bg-[#009688] hover:bg-[#00796B] text-white px-5 py-2.5 font-['Inter'] font-semibold text-xs transition-colors cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,23 +4,23 @@ import Sidebar from '@/components/dashboard/Sidebar';
 import Navbar from '@/components/dashboard/Navbar';
 
 export default function DashboardLayout() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#f8fafc]">
-      {/* Sidebar */}
-      <Sidebar
-        collapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-      />
+    <div className="min-h-screen flex flex-col bg-white text-[#1A1D1F]">
+      {/* Top Navbar */}
+      <Navbar onMenuToggle={() => setMobileSidebarOpen(!mobileSidebarOpen)} />
 
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        <Navbar onMenuToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-        <div className="flex-1 overflow-y-auto">
+      {/* Main split layout: Sidebar + Content */}
+      <div className="flex-1 flex items-stretch min-w-0">
+        <Sidebar
+          collapsed={!mobileSidebarOpen}
+          onToggle={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+        />
+        <main className="flex-1 min-w-0 bg-white">
           <Outlet />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

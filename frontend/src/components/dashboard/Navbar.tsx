@@ -1,67 +1,102 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
-import { Bell, ChevronDown, Menu, Building2, Calendar } from 'lucide-react';
+import { Menu, LogOut, ChevronDown } from 'lucide-react';
 
 interface NavbarProps {
   onMenuToggle: () => void;
 }
 
 export default function Navbar({ onMenuToggle }: NavbarProps) {
-  const { user } = useAuth();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const dateTimeStr = `${currentTime.getDate()} ${months[currentTime.getMonth()]} ${currentTime.getFullYear()}, ${currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
-
-  const userInitial = user?.name?.charAt(0)?.toUpperCase() || 'U';
+  const initial = user?.name ? user.name.charAt(0).toUpperCase() : (user?.role?.charAt(0) || 'A');
+  const roleLabel = user?.role || 'Admin';
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 sticky top-0 z-20">
-      {/* Left Side */}
-      <div className="flex items-center">
+    <header className="h-[56px] bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4 sm:px-6 shrink-0 sticky top-0 z-30">
+      {/* Left side: Mobile menu toggle + Logo + Control Center + Municipality Pill */}
+      <div className="flex items-center gap-3 sm:gap-6">
         <button
+          type="button"
           onClick={onMenuToggle}
-          className="text-gray-400 hover:text-teal-600 transition-colors p-1"
+          className="lg:hidden text-[#1A1D1F] hover:text-[#009688] p-1 transition-colors cursor-pointer"
+          aria-label="Toggle navigation"
         >
           <Menu className="w-5 h-5" />
         </button>
+
+        <Link
+          to="/"
+          className="flex items-baseline gap-[10px] no-underline group cursor-pointer"
+          title="XelCo Home"
+        >
+          <span className="font-['Poppins'] font-bold text-[17px] leading-none tracking-[-0.02em] text-[#1A1D1F]">
+            XELCO
+          </span>
+          <span className="w-[1px] h-[14px] bg-[#E5E7EB]"></span>
+          <span className="font-['Inter'] font-medium text-[13px] leading-none text-[#9CA3AF] hidden sm:inline">
+            Control Center
+          </span>
+        </Link>
+
+        {/* Municipality Pill */}
+        <div className="flex items-center gap-[7px] px-[10px] py-[5px] border border-[#E5E7EB] bg-[#F8F9FA] rounded-[2px]">
+          <span className="w-[6px] h-[6px] bg-[#009688] rounded-full shrink-0 animate-pulse"></span>
+          <span className="font-['Inter'] font-semibold text-[11px] leading-none text-[#2D3139] whitespace-nowrap">
+            VVMC · All 6 zones
+          </span>
+        </div>
       </div>
 
-      {/* Right Side */}
-      <div className="flex items-center gap-5 text-sm text-gray-600">
-        {/* Campus Selector */}
-        <div className="hidden lg:flex items-center gap-2 cursor-pointer hover:text-teal-600 transition-colors bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-          <Building2 className="w-4 h-4 text-gray-400" />
-          <span className="font-medium text-[13px]">XelCo Engineering College</span>
-          <ChevronDown className="w-3 h-3 text-gray-400" />
+      {/* Right side: Demo Data Badge + User Avatar / Menu */}
+      <div className="flex items-center gap-3 sm:gap-4 relative">
+        <div className="font-['Inter'] font-semibold text-[10px] leading-none tracking-[0.1em] text-[#9CA3AF] border border-[#E5E7EB] px-[9px] py-[6px] rounded-[2px] hidden sm:block">
+          DEMO DATA
         </div>
 
-        {/* Date and Time */}
-        <div className="hidden md:flex items-center gap-2 text-[13px] text-gray-500 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-          <Calendar className="w-4 h-4 text-gray-400" />
-          <span className="font-medium">{dateTimeStr}</span>
-        </div>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-1 hover:opacity-80 transition-opacity"
+          >
+            <span className="w-[26px] h-[26px] bg-[#1A1D1F] text-white font-['Inter'] font-bold text-[11px] flex items-center justify-center rounded-[2px]">
+              {initial}
+            </span>
+            <span className="font-['Inter'] font-semibold text-[12px] leading-none text-[#2D3139]">
+              {roleLabel}
+            </span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#9CA3AF]" />
+          </button>
 
-        {/* Notifications */}
-        <button className="relative text-gray-400 hover:text-teal-600 transition-colors p-1.5 hover:bg-teal-50 rounded-lg">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full ring-2 ring-white text-[9px] text-white font-bold flex items-center justify-center">4</span>
-        </button>
-
-        {/* User Avatar */}
-        <div className="flex items-center gap-2.5 cursor-pointer group pl-3 border-l border-gray-200">
-          <div className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-            {userInitial}
-          </div>
-          <div className="hidden md:flex flex-col">
-            <span className="text-[13px] font-semibold text-gray-700 leading-none">{user?.name || 'Manager'}</span>
-          </div>
-          <ChevronDown className="w-3 h-3 text-gray-400" />
+          {dropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-[#E5E7EB] shadow-lg rounded-[2px] py-1 z-50">
+              <div className="px-3 py-2 border-b border-[#E5E7EB]">
+                <p className="font-['Inter'] font-semibold text-[12px] text-[#1A1D1F] truncate">
+                  {user?.name || 'Administrator'}
+                </p>
+                <p className="font-['Inter'] text-[10px] text-[#9CA3AF] truncate">
+                  {user?.email || 'admin@vvmc.gov.in'}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="w-full text-left px-3 py-2 font-['Inter'] text-[12px] text-[#DC2626] hover:bg-red-50 flex items-center gap-2 cursor-pointer transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                Sign out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

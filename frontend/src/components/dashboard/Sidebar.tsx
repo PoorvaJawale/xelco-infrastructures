@@ -1,115 +1,134 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/lib/AuthContext';
-import {
-  LayoutDashboard, Trash2, MapPin, Truck, Bell, BarChart3,
-  Users, Settings, LogOut, Leaf, ChevronLeft, ChevronRight,
-  FileText, Activity, Wifi, Phone, CheckCircle2
-} from 'lucide-react';
-
-const mainNav = [
-  { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-  { label: 'SmartBins', icon: Trash2, path: '/dashboard/smartbins' },
-  { label: 'Locations', icon: MapPin, path: '/dashboard/locations' },
-  { label: 'Collections', icon: Truck, path: '/dashboard/collections' },
-  { label: 'Alerts', icon: Bell, path: '/dashboard/alerts', badge: 4 },
-  { label: 'Reports', icon: FileText, path: '/dashboard/reports' },
-  { label: 'Analytics', icon: BarChart3, path: '/dashboard/analytics' },
-  { label: 'Staff', icon: Users, path: '/dashboard/staff' },
-  { label: 'Settings', icon: Settings, path: '/dashboard/settings' },
-];
+import { NavLink } from 'react-router-dom';
+import { X } from 'lucide-react';
 
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
 }
 
+interface NavSection {
+  title: string;
+  items: {
+    label: string;
+    path: string;
+    badge?: number | string;
+    end?: boolean;
+  }[];
+}
+
+const navSections: NavSection[] = [
+  {
+    title: 'OVERVIEW',
+    items: [
+      { label: 'Dashboard', path: '/dashboard', end: true },
+      { label: 'Live City Map', path: '/dashboard/live-map' },
+    ],
+  },
+  {
+    title: 'OPERATIONS',
+    items: [
+      { label: 'Smart Bins', path: '/dashboard/smartbins' },
+      { label: 'Waste Collection', path: '/dashboard/collections' },
+      { label: 'Route Management', path: '/dashboard/routes' },
+      { label: 'Fleet Management', path: '/dashboard/fleet' },
+      { label: 'Wards & Zones', path: '/dashboard/zones' },
+    ],
+  },
+  {
+    title: 'PEOPLE',
+    items: [
+      { label: 'Contractors', path: '/dashboard/contractors' },
+      { label: 'Drivers', path: '/dashboard/drivers' },
+      { label: 'Waste Collectors', path: '/dashboard/collectors' },
+      { label: 'User Management', path: '/dashboard/users' },
+    ],
+  },
+  {
+    title: 'OVERSIGHT',
+    items: [
+      { label: 'Alerts', path: '/dashboard/alerts', badge: 27 },
+      { label: 'Complaints', path: '/dashboard/complaints' },
+      { label: 'Analytics', path: '/dashboard/analytics' },
+      { label: 'Reports', path: '/dashboard/reports' },
+    ],
+  },
+  {
+    title: 'SYSTEM',
+    items: [{ label: 'Settings', path: '/dashboard/settings' }],
+  },
+];
+
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  const linkClass = (isActive: boolean) =>
-    `flex items-center gap-3 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200 ${
-      isActive
-        ? 'bg-teal-600 text-white shadow-sm shadow-teal-600/20'
-        : 'text-gray-600 hover:bg-teal-50 hover:text-teal-700'
-    }`;
+  const content = (
+    <div className="w-[214px] shrink-0 border-r border-[#E5E7EB] py-5 pb-10 bg-[#FAFBFC] select-none h-full overflow-y-auto">
+      {navSections.map((section, idx) => (
+        <div key={section.title} className={idx > 0 ? 'mt-5' : ''}>
+          <p className="font-['Inter'] font-bold text-[9px] leading-none tracking-[0.14em] uppercase text-[#9CA3AF] mb-2 px-[18px]">
+            {section.title}
+          </p>
+          <div className="flex flex-col">
+            {section.items.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                end={item.end}
+                onClick={() => {
+                  // close mobile drawer if open
+                  if (!collapsed && window.innerWidth < 1024) {
+                    onToggle();
+                  }
+                }}
+                className={({ isActive }) =>
+                  `flex items-center justify-between font-['Inter'] text-[13px] leading-none transition-colors cursor-pointer no-underline ${
+                    isActive
+                      ? 'font-semibold text-[#00796B] py-[9px] px-[18px] border-l-[3px] border-[#009688] bg-[rgba(0,150,136,0.05)]'
+                      : 'font-normal text-[#2D3139] py-[9px] px-[21px] hover:bg-[#F3F4F6] border-l-[3px] border-transparent'
+                  }`
+                }
+              >
+                <span>{item.label}</span>
+                {item.badge !== undefined && (
+                  <span className="font-['Inter'] font-bold text-[10px] leading-none text-white bg-[#DC2626] px-[5px] py-[3px]">
+                    {item.badge}
+                  </span>
+                )}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
-    <aside
-      className={`${
-        collapsed ? 'w-[72px]' : 'w-60'
-      } bg-white border-r border-gray-200 flex flex-col shrink-0 transition-all duration-300 h-screen sticky top-0 z-30`}
-    >
-      {/* Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-gray-100 shrink-0">
-        <img 
-          src="/logo.png" 
-          alt="XelCo InfraTechnologies" 
-          className={`h-9 object-contain transition-all ${collapsed ? 'w-8 object-left' : 'w-auto'}`}
-        />
-      </div>
+    <>
+      {/* Desktop permanent sidebar */}
+      <aside className="hidden lg:block h-[calc(100vh-56px)] sticky top-[56px] shrink-0 z-20">
+        {content}
+      </aside>
 
-      {/* Main Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        {mainNav.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            end={item.path === '/dashboard'}
-            className={({ isActive }) => linkClass(isActive)}
-            title={collapsed ? item.label : undefined}
-          >
-            <item.icon className="w-[18px] h-[18px] shrink-0" />
-            {!collapsed && <span>{item.label}</span>}
-            {!collapsed && item.badge && (
-              <span className="ml-auto bg-teal-600 text-white text-[10px] w-5 h-5 rounded-full font-bold flex items-center justify-center shadow-sm">
-                {item.badge}
-              </span>
-            )}
-          </NavLink>
-        ))}
-      </nav>
-
-      {/* Bottom Section */}
+      {/* Mobile drawer backdrop and sidebar */}
       {!collapsed && (
-        <div className="px-4 pb-3 space-y-3 border-t border-gray-100 pt-3">
-          {/* System Status */}
-          <div className="bg-teal-50/60 rounded-lg p-3">
-            <div className="flex items-center gap-2 mb-1">
-              <Wifi className="w-3.5 h-3.5 text-teal-600" />
-              <span className="text-[11px] font-bold text-gray-700">System Status</span>
+        <div className="fixed inset-0 z-40 lg:hidden flex">
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
+            onClick={onToggle}
+          />
+          <div className="relative z-50 bg-[#FAFBFC] shadow-xl flex flex-col h-full">
+            <div className="p-3 border-b border-[#E5E7EB] flex justify-end">
+              <button
+                type="button"
+                onClick={onToggle}
+                className="p-1 text-[#1A1D1F] hover:text-[#009688] cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3 h-3 text-teal-500" />
-              <span className="text-[10px] text-teal-700 font-medium">All Systems Operational</span>
-            </div>
-          </div>
-
-          {/* Need Help */}
-          <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-[11px] font-bold text-gray-700 mb-0.5">Need Help?</p>
-            <p className="text-[10px] text-gray-400">Contact Support</p>
-            <div className="flex items-center gap-1 mt-1">
-              <Phone className="w-3 h-3 text-gray-400" />
-              <span className="text-[10px] text-gray-500 font-medium">+91 98765 43210</span>
-            </div>
+            <div className="flex-1 overflow-y-auto">{content}</div>
           </div>
         </div>
       )}
-
-      {/* Collapse Toggle */}
-      <button
-        onClick={onToggle}
-        className="hidden md:flex h-10 items-center justify-center border-t border-gray-100 text-gray-400 hover:text-teal-600 hover:bg-teal-50 transition-colors shrink-0"
-      >
-        {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-      </button>
-    </aside>
+    </>
   );
 }
