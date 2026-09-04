@@ -26,6 +26,7 @@ import Register from './pages/Register';
 
 // Dashboard pages
 import Dashboard from './pages/Dashboard';
+import RouteOptimisation from './pages/RouteOptimisation';
 import PlaceholderPage from './pages/PlaceholderPage';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean, error: Error | null }> {
@@ -74,7 +75,7 @@ export default function App() {
               <Route path="live-map" element={<PlaceholderPage title="Live City Map" description="Real-time map of all 452 smart bins and collection vehicles in Vasai-Virar." icon={<MapPin className="w-12 h-12" />} />} />
               <Route path="smartbins" element={<PlaceholderPage title="Smart Bins" description="Manage, search, and monitor all smart bins across six zones." icon={<Trash2 className="w-12 h-12" />} />} />
               <Route path="collections" element={<PlaceholderPage title="Waste Collection" description="View collection schedules, history, and assigned workers." icon={<Truck className="w-12 h-12" />} />} />
-              <Route path="routes" element={<PlaceholderPage title="Route Management" description="Generate, re-run, and assign collection routes." icon={<Truck className="w-12 h-12" />} />} />
+              <Route path="routes" element={<RouteOptimisation />} />
               <Route path="fleet" element={<PlaceholderPage title="Fleet Management" description="Monitor collection vehicles, fuel, and telemetry." icon={<Truck className="w-12 h-12" />} />} />
               <Route path="zones" element={<PlaceholderPage title="Wards & Zones" description="Vasai-Virar municipal wards, zones, and territory boundaries." icon={<MapPin className="w-12 h-12" />} />} />
               <Route path="contractors" element={<PlaceholderPage title="Contractors" description="Manage collection operators, SLAs, and performance scores." icon={<Users className="w-12 h-12" />} />} />
